@@ -105,3 +105,5 @@ dist
 
 # Custom ignore
 package-lock.json
+.env.dev
+.env.prod
