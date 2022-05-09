@@ -1,0 +1,14 @@
+{
+  "name": "m1p9android-backend",
+  "version": "0.0.1",
+  "description": "Projet Android M1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Johan & Mirado",
+  "license": "ISC",
+  "dependencies": {
+    "expressjs": "^1.0.1"
+  }
+}
