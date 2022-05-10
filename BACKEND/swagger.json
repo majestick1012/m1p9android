@@ -23,7 +23,20 @@
             "required": true
           }
         ],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "Informations utilisateur",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "default": {
+            "description": "Erreur",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
       }
     }
   },
@@ -42,19 +55,49 @@
         }
       }
     },
-    "ErrorModel": {
+    "User": {
       "type": "object",
-      "required": [
-        "code",
-        "message"
-      ],
       "properties": {
-        "code": {
-          "type": "integer",
-          "format": "int32"
+        "success": {
+          "type": "boolean"
         },
         "message": {
           "type": "string"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "firstname": {
+              "type": "string"
+            },
+            "lastname": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "ErrorModel": {
+      "type": "object",
+      "required": [
+        "success",
+        "message"
+      ],
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object"
         }
       }
     }
