@@ -1,3 +1,6 @@
+const res = require('express/lib/response');
+const mongoose = require('mongoose');
+const db = require('./config/db');
 const path = require('path');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
@@ -8,9 +11,6 @@ var bodyParser = require('body-parser');
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
-
-app.use('/docs', swaggerUi.serve);
-app.get('/docs', swaggerUi.setup(swaggerDocument));
 
 // Variables d'environnement
 const mode = process.env.NODE_ENV || "Development";
@@ -25,6 +25,9 @@ app.use(express.static(__dirname + '/public'));
 app.use(cors());
 app.use(bodyParser.json());
 app.use("/api/user", userRoutes);
+// Swagger
+app.use('/docs', swaggerUi.serve);
+app.get('/docs', swaggerUi.setup(swaggerDocument));
 
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname + '/public/index.html'));

@@ -8,13 +8,14 @@ const router = express.Router();
 // LOGIN
 router.post("/login", (req, res, next) => {
   let fetchedUser;
-  console.log(req.body);
 
   User.findOne({ email: req.body.email })
     .then((user) => {
       if (!user) {
         return res.status(401).json({
+          success: false,
           message: "Auth failed! No such user",
+          data: {},
         });
       }
 
@@ -24,14 +25,16 @@ router.post("/login", (req, res, next) => {
     .then((result) => {
       if (!result) {
         return res.status(401).json({
+          success: false,
           message: "Auth failed! Incorrect password",
+          data: {},
         });
       }
 
       // CREATING THE JSON WEBTOKEN WITH SIGNATURE AND KEY
       const token = jwt.sign(
         { email: fetchedUser.email, userId: fetchedUser._id },
-        "secret_test_phrase",
+        process.env.SECRET_BASE,
         { expiresIn: "8h" }
       );
 
@@ -48,7 +51,9 @@ router.post("/login", (req, res, next) => {
         if (result) {
           res.status(200).json({
             expiresIn: 28800,
-            admin: {
+            success: true,
+            message: "Auth success!",
+            data: {
               _id: fetchedUser._id,
               email: fetchedUser.email,
               firstname: fetchedUser.firstname,
@@ -57,7 +62,9 @@ router.post("/login", (req, res, next) => {
           });
         } else {
           res.status(401).json({
+            success: false,
             message: "Auth failed!",
+            data: {},
           });
         }
       });
