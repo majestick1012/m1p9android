@@ -1,10 +1,8 @@
-package com.example.jeueducatif.view;
+package com.example.jeueducatif;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-
-import com.example.jeueducatif.R;
 
 public class MainActivity extends AppCompatActivity {
 
