@@ -6,6 +6,12 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+
+app.use('/docs', swaggerUi.serve);
+app.get('/docs', swaggerUi.setup(swaggerDocument));
+
 // Variables d'environnement
 const mode = process.env.NODE_ENV || "Development";
 const PORT = process.env.PORT || 3000;
