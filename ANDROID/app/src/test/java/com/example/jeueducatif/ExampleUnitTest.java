@@ -1,4 +1,4 @@
-package com.example.educatif;
+package com.example.jeueducatif;
 
 import org.junit.Test;
 
