@@ -86,14 +86,70 @@ router.post("/logout", (req, res, next) => {
   )
     .then((result) => {
       if (result) {
-        res.status(200).json({ message: "Logout successful!" });
+        res.status(200).json({
+          success: true,
+          message: "Logout successful!",
+        });
       } else {
-        res.status(500).json({ message: "Error logout user" });
+        res.status(500).json({
+          success: false,
+          message: "Error logout user",
+        });
       }
     })
     .catch((e) => {
       console.log(e);
     });
+});
+
+// SIGNUP
+router.post("/signup", (req, res, next) => {
+  bcrypt.hash(req.body.password, 10).then((hash) => {
+    const user = new User({
+      email: req.body.email,
+      firstname: req.body.firstname,
+      lastname: req.body.lastname,
+      password: hash,
+      authToken: null,
+    });
+
+    User.findOne({ email: req.body.email })
+      .then((user1) => {
+        if (user1) {
+          return res.status(401).json({
+            success: false,
+            message: "User Already Exist",
+          });
+        }
+
+        user.save().then((result) => {
+          if (!result) {
+            return res.status(500).json({
+              success: false,
+              message: "Error Creating User",
+            });
+          }
+
+          res.status(201).json({
+            success: true,
+            message: "User created",
+            data: {
+              _id: result._id,
+              email: result.email,
+              firstname: result.firstname,
+              lastname: result.lastname,
+            },
+          });
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json({
+          success: false,
+          message: err,
+        });
+      });
+  });
 });
 
 module.exports = router;

@@ -10,9 +10,9 @@
     "/api/user/login": {
       "post": {
         "x-swagger-router-controller": "home",
-        "operationId": "index",
+        "operationId": "login",
         "tags": ["User"],
-        "description": "Connexion de l'utilisateur",
+        "description": "Login",
         "parameters": [
           {
             "name": "Login",
@@ -25,13 +25,101 @@
         ],
         "responses": {
           "200": {
-            "description": "Informations utilisateur",
+            "description": "Login success",
             "schema": {
               "$ref": "#/definitions/User"
             }
           },
+          "401": {
+            "description": "Authentication failed",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
           "default": {
-            "description": "Erreur",
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/user/signup": {
+      "post": {
+        "x-swagger-router-controller": "home",
+        "operationId": "signup",
+        "tags": ["User"],
+        "description": "Signup",
+        "parameters": [
+          {
+            "name": "Signup",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Signup"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Signup success",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "401": {
+            "description": "Email already used",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "default": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/user/logout": {
+      "post": {
+        "x-swagger-router-controller": "home",
+        "operationId": "logout",
+        "tags": ["User"],
+        "description": "Logout",
+        "parameters": [
+          {
+            "name": "Logout",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "required": ["id"],
+              "properties": {
+                "id": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Logout success",
+            "schema": {
+              "$ref": "#/definitions/SuccessModel"
+            }
+          },
+          "500": {
+            "description": "Logout failed",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          },
+          "default": {
+            "description": "Error",
             "schema": {
               "$ref": "#/definitions/ErrorModel"
             }
@@ -43,11 +131,27 @@
   "definitions": {
     "Login": {
       "type": "object",
-      "required": [
-        "email", "password"
-      ],
+      "required": ["email", "password"],
       "properties": {
         "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "Signup": {
+      "type": "object",
+      "required": ["email", "password", "firstname", "lastname"],
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "firstname": {
+          "type": "string"
+        },
+        "lastname": {
           "type": "string"
         },
         "password": {
@@ -83,21 +187,28 @@
         }
       }
     },
-    "ErrorModel": {
+    "SuccessModel": {
       "type": "object",
-      "required": [
-        "success",
-        "message"
-      ],
+      "required": ["success", "message"],
       "properties": {
         "success": {
           "type": "boolean"
         },
         "message": {
           "type": "string"
+        }
+      }
+    },
+    "ErrorModel": {
+      "type": "object",
+      "required": ["success", "message"],
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "example": false
         },
-        "data": {
-          "type": "object"
+        "message": {
+          "type": "string"
         }
       }
     }
