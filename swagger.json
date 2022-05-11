@@ -35,12 +35,6 @@
             "schema": {
               "$ref": "#/definitions/ErrorModel"
             }
-          },
-          "default": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorModel"
-            }
           }
         }
       }
@@ -70,12 +64,6 @@
           },
           "401": {
             "description": "Email already used",
-            "schema": {
-              "$ref": "#/definitions/ErrorModel"
-            }
-          },
-          "default": {
-            "description": "Error",
             "schema": {
               "$ref": "#/definitions/ErrorModel"
             }
@@ -114,12 +102,6 @@
           },
           "500": {
             "description": "Logout failed",
-            "schema": {
-              "$ref": "#/definitions/ErrorModel"
-            }
-          },
-          "default": {
-            "description": "Error",
             "schema": {
               "$ref": "#/definitions/ErrorModel"
             }
