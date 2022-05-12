@@ -6,9 +6,11 @@ import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.educatif.R;
+import com.example.educatif.model.AccessApi;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
@@ -18,13 +20,13 @@ public class LoginActivity extends AppCompatActivity {
     ViewPager viewPager;
     FloatingActionButton fb,google,twitter;
     float v=0;
+    AccessApi accessApi = new AccessApi();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
-
-
+        accessApi.sendRequest();
         setContentView(R.layout.activity_login);
         tabLayout = findViewById(R.id.tab_layout);
         viewPager = findViewById(R.id.view_pager);
@@ -63,6 +65,9 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
+
+
+
         /*fb.setTranslationY(300);
         google.setTranslationY(300);
         twitter.setTranslationY(300);
@@ -80,4 +85,7 @@ public class LoginActivity extends AppCompatActivity {
         tabLayout.animate().translationY(0).alpha(1).setDuration(1000).setStartDelay(100).start();
 
     }
+
+
+
 }
