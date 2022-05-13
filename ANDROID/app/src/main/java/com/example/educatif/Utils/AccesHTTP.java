@@ -19,7 +19,11 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 public class AccesHTTP extends AsyncTask<String,Integer,Long> {
+    public void setTypesend(String typesend) {
+        this.typesend = typesend;
+    }
 
+    private String typesend;
     private ArrayList<NameValuePair> parametres;
     private String ret=null;
     public AsyncResponse delegate = null;
@@ -44,19 +48,34 @@ public class AccesHTTP extends AsyncTask<String,Integer,Long> {
     @Override
     protected Long doInBackground(String... strings) {
 
+        //HttpClient httpclient = CreateHttpClient.createHttpClient1();
 
-        HttpClient cnxHttp = CreateHttpClient.createHttpClient();
-        //HttpPost paramCnx = new HttpPost(strings[0]);
-        HttpGet paramCnx = new HttpGet(strings[0]);
+
+        HttpClient cnxHttp = CreateHttpClient.getNewHttpClient();
+
+        //Object paramCnx = new HttpPost(strings[0]);
+        //HttpGet paramCnx = new HttpGet(strings[0]);
         try{
-            //encodage des parametres
-            //paramCnx.setEntity(new UrlEncodedFormEntity(parametres));
-            //connexion et envoie de parametre,attente de reponse
-            //HttpResponse response = cnxHttp.execute(paramCnx);
-            HttpResponse response = cnxHttp.execute(paramCnx);
+            Object paramCnx = new HttpPost(strings[0]);
+            HttpResponse response;
+            if(!typesend.equals("GET")){
+                //encodage des parametres si post
+                ((HttpPost)paramCnx).setEntity(new UrlEncodedFormEntity(parametres));
+                //connexion et envoie de parametre,attente de reponse post
+                //HttpResponse response = cnxHttp.execute(paramCnx);
+                 response = cnxHttp.execute(((HttpPost)paramCnx));
+            }
+            else {
+                 paramCnx = new HttpGet(strings[0]);
+                //connexion et envoie de parametre,attente de reponse get
+                response = cnxHttp.execute(((HttpGet)paramCnx));
+            }
+
 
             //transformation de la reponse
             ret= EntityUtils.toString(response.getEntity());
+
+            Log.d("Method","*************"+typesend+"**********");
 
         }catch (UnsupportedEncodingException e){
             Log.d("Erreur encodage","******"+e.toString()+"******");
