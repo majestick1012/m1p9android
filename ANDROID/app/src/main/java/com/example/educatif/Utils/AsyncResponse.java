@@ -1,6 +1,6 @@
 package com.example.educatif.Utils;
 
 public interface AsyncResponse {
-    default void ProcessFinish(String output){
-    }
+    void ProcessFinish(String output);
+    String ValueOutputPut(String output);
 }

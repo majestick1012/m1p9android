@@ -27,12 +27,16 @@ public class AccesHTTP extends AsyncTask<String,Integer,Long> {
     private ArrayList<NameValuePair> parametres;
     private String ret=null;
     public AsyncResponse delegate = null;
-
+    public Boolean isExecutedinbackground = true;
     /**
      * constructeur
      */
     public AccesHTTP(){
         parametres = new ArrayList<>();
+    }
+
+    public final String getRet() {
+        return ret;
     }
 
     /**
@@ -73,9 +77,10 @@ public class AccesHTTP extends AsyncTask<String,Integer,Long> {
 
 
             //transformation de la reponse
-            ret= EntityUtils.toString(response.getEntity());
+            ret = EntityUtils.toString(response.getEntity());
 
             Log.d("Method","*************"+typesend+"**********");
+
 
         }catch (UnsupportedEncodingException e){
             Log.d("Erreur encodage","******"+e.toString()+"******");
@@ -84,10 +89,16 @@ public class AccesHTTP extends AsyncTask<String,Integer,Long> {
         }catch (IOException e){
             Log.d("Erreur d'I/O","******"+e.toString()+"******");
         }
+        delegate.ProcessFinish((ret.toString()));
+        delegate.ValueOutputPut(ret.toString());
+        isExecutedinbackground = false;
         return null;
     }
     @Override
     protected void onPostExecute(Long result){
-        delegate.ProcessFinish((ret.toString()));
+        //delegate.ProcessFinish((ret.toString()));
+        //delegate.ValueOutputPut(ret.toString());
+
     }
+
 }
