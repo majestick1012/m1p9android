@@ -42,7 +42,6 @@ public class LoginTabFragment extends Fragment {
             public void onClick(View v) {
                 String nameText = name.getText().toString();
                 String passwordText = password.getText().toString();
-
                 Intent intent = loginController.verifyLogin(nameText,passwordText,root.getContext());
                 if(intent!=null){
                     startActivity(intent);

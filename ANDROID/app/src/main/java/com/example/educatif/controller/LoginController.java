@@ -10,7 +10,7 @@ import com.example.educatif.model.Login;
 
 public final class LoginController {
 
-    private Login login;
+    public Login login;
     /**
      * controller du login
      */
@@ -31,8 +31,11 @@ public final class LoginController {
         login = new Login(name,password);
         AccessApi accessApi = new AccessApi();
         return accessApi.findUser(login,context);
+    }
 
-
+    public void InsertNewUser(Login login,Context context){
+        AccessApi accessApi = new AccessApi();
+        accessApi.insertUser(login,context);
     }
 
 }

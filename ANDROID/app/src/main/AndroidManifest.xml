@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.educatif">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,10 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Educatif">
         <activity
+            android:name=".view.LessonActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.SplashScreenActivity"
             android:exported="false" />
-
-
         <activity
             android:name=".view.LoginActivity"
             android:exported="true">
@@ -23,12 +26,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".view.MainActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"></activity>
     </application>
-    <uses-permission android:name="android.permission.INTERNET"/>
+
 </manifest>

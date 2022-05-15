@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.example.educatif.Utils.AccesHTTP;
 import com.example.educatif.Utils.AsyncResponse;
+import com.example.educatif.view.LessonActivity;
 import com.example.educatif.view.SplashScreenActivity;
 
 import org.json.JSONArray;
@@ -66,13 +67,32 @@ public class AccessApi implements AsyncResponse {
         while(accesHTTP.isExecutedinbackground){}
         if(!accesHTTP.getRet().equals("null")){
             Log.d("getretvalue","**************"+accesHTTP.getRet()+"*************");
-             intent = new Intent(context, SplashScreenActivity.class);
+             intent = new Intent(context, LessonActivity.class);
         }
 
         Toast.makeText(context, AccessApi.hello, Toast.LENGTH_SHORT).show();
         Log.d("reponse","********************"+hello+"*************");
         return intent;
     }
+
+    public void insertUser(Login login, Context context){
+        AccesHTTP accesHTTP = new AccesHTTP();
+        accesHTTP.setTypesend("POST");
+        accesHTTP.addParam("name",login.getName());
+        accesHTTP.addParam("password",login.getPassword());
+        accesHTTP.addParam("email",login.getEmail());
+        accesHTTP.addParam("phoneNumber",login.getPhoneNumber());
+        String linkApiInsert = "http://192.168.1.115:3000/insertuser";
+        accesHTTP.delegate = this;
+        accesHTTP.execute(linkApiInsert);
+        while(accesHTTP.isExecutedinbackground){}
+        if(!accesHTTP.getRet().equals("null")){
+            Log.d("getretvalue","**************"+accesHTTP.getRet()+"*************");
+        }
+        Toast.makeText(context, "utilisateur inserer", Toast.LENGTH_SHORT).show();
+        Log.d("reponse","********************"+hello+"*************");
+    }
+
 
     public void sendRequest(){
 
@@ -85,6 +105,9 @@ public class AccessApi implements AsyncResponse {
         accesHTTP.execute(getMethod);
         while(accesHTTP.isExecutedinbackground){}
     }
+
+
+
 
 
 }

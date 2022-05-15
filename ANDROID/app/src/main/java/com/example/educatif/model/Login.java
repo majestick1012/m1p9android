@@ -25,6 +25,13 @@ public class Login {
         this.phoneNumber = phoneNumber;
     }
 
+    public Login(String name,String email,String password,String phoneNumber) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+    }
+
     public Login(String name,String password) {
         this.name = name;
         this.password = password;
