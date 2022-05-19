@@ -3,80 +3,211 @@ package com.example.educatif.view;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.example.educatif.R;
+import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LessonActivity extends AppCompatActivity {
-    List<VideoView> LessonVideo = new ArrayList<>();
+public class LessonActivity extends YouTubeBaseActivity {
+    //List<VideoView> LessonVideo = new ArrayList<>();
+    List<Button> buttonExercice = new ArrayList<>();
+    //initialise youtube
+    YouTubePlayerView youTubePlayerView;
+    YouTubePlayerView youTubePlayerView1;
 
+    List<YouTubePlayerView> LessonVideo = new ArrayList<>();
+
+    private int j = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lesson);
 
-
-
-
-
-        //Uri video = Uri.parse("C:\\M1\\Mobile\\gitcheck\\m1p9android\\ANDROID\\app\\src\\main\\java\\com\\example\\educatif\\video\\videomp.mp4");
-        //String video = "android.resource://" + getPackageName() + "/" + R.raw.aurora;
-        //videoView.setVideoURI(Uri.parse(video));
-        //videoView.start();
-        //videoView.requestFocus();
-        //LessonVideo.add(new VideoView(this));
-        //LessonVideo.add(new VideoView(this));
-        //LessonVideo.add(new VideoView(this));
-        //LessonVideo.add(new VideoView(this));
-        //LessonVideo.add(new VideoView(this));
-
         ScrollView sv= new ScrollView(this);//(ScrollView) findViewById(R.id.svScroll);
         sv.setLayoutParams(new ScrollView.LayoutParams(ScrollView.LayoutParams.MATCH_PARENT,ScrollView.LayoutParams.MATCH_PARENT));
 
-        String viduri = "android.resource://" + getPackageName() + "/" + R.raw.aurora;
-        String viduri2 = "android.resource://" + getPackageName() + "/" + R.raw.videomp;
-
+        String viduri = "android.resource://" + getPackageName() + "/" + R.raw.videotest;
+        String viduri2 = "android.resource://" + getPackageName() + "/" + R.raw.videotest;
+        String viduri3 = "android.resource://" + getPackageName() + "/" + R.raw.aurora;
+        String viduri4 = "android.resource://" + getPackageName() + "/" + R.raw.videomp;
 
         LinearLayout layout = findViewById(R.id.constraintLayoutVideo);
-       // layout.addView(sv);
 
         VideoView vid = new VideoView(this);
         vid.setVideoURI(Uri.parse(viduri));
-        layout.addView(vid,1100,800);
-
+        //LessonVideo.add(vid);
+        //buttonExercice.add(button);
 
         VideoView vid2 = new VideoView(this);
         vid2.setVideoURI(Uri.parse(viduri2));
-        layout.addView(vid2,1100,800);
+        //LessonVideo.add(vid2);
+        //buttonExercice.add(button);
 
         VideoView vid3 = new VideoView(this);
-
-        layout.addView(vid3,1100,800);
-        vid3.setVideoURI(Uri.parse(viduri2));
+        vid3.setVideoURI(Uri.parse(viduri3));
+        //LessonVideo.add(vid3);
+        //buttonExercice.add(button);
 
         VideoView vid4 = new VideoView(this);
-        layout.addView(vid4,1100,800);
-
-        //vid.start();
-        vid.start();
-        vid2.start();
+        vid4.setVideoURI(Uri.parse(viduri4));
+        //LessonVideo.add(vid4);
+        //buttonExercice.add(button);
 
 
+        //add youtube lesson video
+       // LessonVideo.add(youTubePlayerView);
+       // LessonVideo.add(youTubePlayerView);
+       // LessonVideo.add(youTubePlayerView);
 
-       // vid2.requestFocus();
 
+        for(j=0;j<LessonVideo.size();j++){
+            LessonVideo.get(j).setLayoutParams(layout.getLayoutParams());
+            LessonVideo.get(j).setId(j);
+           layout.addView(LessonVideo.get(j),1100,800);
+
+            //bouton config
+            Button button = new Button(this);
+            button.setLayoutParams(layout.getLayoutParams());
+            button.setTextSize(22);
+            button.setText("Excercice");
+            button.setHeight(100);
+            button.setWidth(100);
+            button.setGravity(Gravity.CENTER_HORIZONTAL);
+            buttonExercice.add(button);
+            layout.addView(buttonExercice.get(j));
+            buttonExercice.get(j).setVisibility(View.GONE);
+            buttonExercice.get(j).setId(j);
+            //playVideo(LessonVideo.get(j));
+            //playYoutubeVideo(LessonVideo.get(j));
+        }
+        //assign youtube variable
+        //youTubePlayerView = findViewById(R.id.youtube_player_view);
+
+        youTubePlayerView1 = new YouTubePlayerView(this);
+        youTubePlayerView1.setLayoutParams(layout.getLayoutParams());
+
+        YouTubePlayerView youTubePlayerView2 = new YouTubePlayerView(this);
+        youTubePlayerView1.setLayoutParams(layout.getLayoutParams());
+
+        LessonVideo.add(youTubePlayerView1);
+        LessonVideo.add(youTubePlayerView2);
+        layout.addView(LessonVideo.get(0),1100,800);
+
+        Button button = new Button(this);
+        button.setLayoutParams(layout.getLayoutParams());
+        button.setTextSize(22);
+        button.setText("Excercice");
+        button.setHeight(100);
+        button.setWidth(100);
+        button.setGravity(Gravity.CENTER_HORIZONTAL);
+        Button button2 = new Button(this);
+        button2.setLayoutParams(layout.getLayoutParams());
+        button2.setTextSize(22);
+        button2.setText("Excercice");
+        button2.setHeight(100);
+        button2.setWidth(100);
+        button2.setGravity(Gravity.CENTER_HORIZONTAL);
+        buttonExercice.add(button);
+        buttonExercice.add(button2);
+        layout.addView(buttonExercice.get(0));
+        layout.addView(LessonVideo.get(1),1100,800);
+        layout.addView(buttonExercice.get(1));
+
+        playYoutubeVideo(LessonVideo.get(1),"W4hTJybfU7s");
+        //playYoutubeVideo(LessonVideo.get(1),"qAHMCZBwYo4");
+
+    }
+
+    public void playVideo(VideoView video){
+        video.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("videoclick","onclick");
+                if(video.isPlaying())  video.pause();
+                else  video.start();
+            }
+        });
+
+
+           // video.setOnTouchListener(new VideoView.OnTouchListener() {
+              //  @Override
+               // public boolean onTouch(View view, MotionEvent motionEvent) {
+                        //Log.d("video","ACTION_DOWN");
+
+                        //if(video.isPlaying())  video.pause();
+                        //else  video.start();
+
+
+                 //   return false;
+               // }
+
+
+           // });
+
+        video.setOnCompletionListener(new MediaPlayer.OnCompletionListener(){
+            @Override
+            public void onCompletion(MediaPlayer mp){
+               Log.d("messageId","numero"+video.getId());
+               buttonExercice.get(video.getId()).setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    public void playYoutubeVideo(YouTubePlayerView videoYoutube,String id){
+        try{
+            //initialize listener
+            YouTubePlayer.OnInitializedListener listener = new YouTubePlayer.OnInitializedListener(){
+                @Override
+                public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+                    //load video
+                    youTubePlayer.loadVideo(id);
+                    //startvideo
+                    youTubePlayer.play();
+                    //youTubePlayer.play();
+                    // if(youTubePlayer.isPlaying())youTubePlayer.pause();
+                    // else youTubePlayer.play();
+                }
+                @Override
+                public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+                    Toast.makeText(getApplicationContext(),"initialisation failed",Toast.LENGTH_SHORT).show();
+                }
+            };
+            videoYoutube.initialize("AIzaSyAetr811-xxB2NelrAHbKRq_ohGfYWXwxU",listener);
+        }
+        catch (Exception ex){
+            Log.d("Message d'exception",ex.getMessage());
+        }
+
+
+        //videoYoutube.setOnClickListener(new View.OnClickListener() {
+           // @Override
+           // public void onClick(View view) {
+             //   Log.d("videoclick","onclick");
+
+           // }
+       // });
     }
 
 }

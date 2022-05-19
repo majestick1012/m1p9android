@@ -1,12 +1,22 @@
 package com.example.educatif.model;
 
 import com.example.educatif.Utils.AccesHTTP;
+import com.google.gson.annotations.SerializedName;
 
 public class Login {
+   @SerializedName("_id")
    private String id;
+
+    @SerializedName("name")
    private String name;
+
+    @SerializedName("email")
    private String email;
+
+    @SerializedName("password")
    private String password;
+
+    @SerializedName("phoneNumber")
    private String phoneNumber;
 
     /**

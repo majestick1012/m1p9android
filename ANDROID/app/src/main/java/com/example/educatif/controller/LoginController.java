@@ -5,12 +5,24 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.educatif.Utils.RetrofitInterface;
 import com.example.educatif.model.AccessApi;
 import com.example.educatif.model.Login;
+import com.example.educatif.view.LessonActivity;
+
+import java.util.HashMap;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public final class LoginController {
 
     public Login login;
+    private Retrofit retrofit;
+    private RetrofitInterface retrofitInterface;
+    private String base_Url="http://testnodeekaly.herokuapp.com";
     /**
      * controller du login
      */
@@ -37,5 +49,8 @@ public final class LoginController {
         AccessApi accessApi = new AccessApi();
         accessApi.insertUser(login,context);
     }
+
+
+
 
 }
