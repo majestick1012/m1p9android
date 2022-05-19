@@ -18,13 +18,18 @@ const PORT = process.env.PORT || 3000;
 
 // Routes
 const userRoutes = require("./routes/user.route");
+const parameterRoutes = require("./routes/parameter.route");
+const activityRoutes = require("./routes/activity.route");
 
 // ExpressJS
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
 app.use(cors());
 app.use(bodyParser.json());
+// API
 app.use("/api/user", userRoutes);
+app.use("/api/parameter", parameterRoutes);
+app.use("/api/activity", activityRoutes);
 // Swagger
 app.use('/docs', swaggerUi.serve);
 app.get('/docs', swaggerUi.setup(swaggerDocument));
