@@ -1,12 +1,15 @@
 package com.example.educatif.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -68,14 +71,18 @@ public class ListLessonActivity extends AppCompatActivity {
         for(int i=0;i<lessonController.lesson.getData().size();i++){
             LessonData lessonData = lessonController.lesson.getData().get(i);
             Button button = new Button(this);
-            button.setLayoutParams(linearLayout.getLayoutParams());
+            ViewGroup.MarginLayoutParams test = (ViewGroup.MarginLayoutParams) linearLayout.getLayoutParams();
+            test.setMargins(25,0,25,25);
+            test.height = 250;
+            button.setLayoutParams(test);
             button.setTextSize(22);
+            button.setTextColor(Color.parseColor("#FFFFFF"));
             button.setText(lessonData.getTitle());
             button.setHeight(100);
             button.setWidth(100);
-            button.setGravity(Gravity.CENTER_HORIZONTAL);
+            button.setGravity(Gravity.CENTER);
             button.setId(i);
-            buttons.add(button);
+            button.setBackground(ContextCompat.getDrawable(this, R.drawable.button_bg));
             linearLayout.addView(button);
 
             button.setOnClickListener(new Button.OnClickListener(){

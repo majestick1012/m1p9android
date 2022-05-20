@@ -82,7 +82,7 @@ public class LoginTabFragment extends Fragment {
                     public void onResponse(Call<Login> call, Response<Login> response) {
                         loginController.login = response.body();
                             if(loginController.login!=null) {
-                            Toast.makeText(root.getContext(),"login success",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(root.getContext(),"Connexion réussie !",Toast.LENGTH_SHORT).show();
                             //Intent intent = new Intent(root.getContext(), LessonActivity.class);
                             Intent intent = new Intent(root.getContext(), ListLessonActivity.class);
                             startActivity(intent);
