@@ -3,6 +3,8 @@ package com.example.educatif.view;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.content.Context;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,6 +24,10 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.example.educatif.R;
+import com.example.educatif.Utils.RetrofitInterface;
+import com.example.educatif.Utils.RetrofitLessonInterface;
+import com.example.educatif.model.Lesson;
+import com.example.educatif.model.Login;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
@@ -30,12 +36,22 @@ import com.google.android.youtube.player.YouTubePlayerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class LessonActivity extends YouTubeBaseActivity {
     //List<VideoView> LessonVideo = new ArrayList<>();
     List<Button> buttonExercice = new ArrayList<>();
     //initialise youtube
     YouTubePlayerView youTubePlayerView;
     YouTubePlayerView youTubePlayerView1;
+
+    private Retrofit retrofit;
+    private RetrofitLessonInterface retrofitLessonInterface;
+    private String base_Url="https://m1p9android-jm.herokuapp.com";
 
     List<YouTubePlayerView> LessonVideo = new ArrayList<>();
 
@@ -44,6 +60,8 @@ public class LessonActivity extends YouTubeBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lesson);
+
+
 
         ScrollView sv= new ScrollView(this);//(ScrollView) findViewById(R.id.svScroll);
         sv.setLayoutParams(new ScrollView.LayoutParams(ScrollView.LayoutParams.MATCH_PARENT,ScrollView.LayoutParams.MATCH_PARENT));
@@ -113,7 +131,7 @@ public class LessonActivity extends YouTubeBaseActivity {
 
         LessonVideo.add(youTubePlayerView1);
         LessonVideo.add(youTubePlayerView2);
-        layout.addView(LessonVideo.get(0),1100,800);
+       // layout.addView(LessonVideo.get(0),1100,800);
 
         Button button = new Button(this);
         button.setLayoutParams(layout.getLayoutParams());
@@ -129,14 +147,20 @@ public class LessonActivity extends YouTubeBaseActivity {
         button2.setHeight(100);
         button2.setWidth(100);
         button2.setGravity(Gravity.CENTER_HORIZONTAL);
-        buttonExercice.add(button);
-        buttonExercice.add(button2);
-        layout.addView(buttonExercice.get(0));
-        layout.addView(LessonVideo.get(1),1100,800);
-        layout.addView(buttonExercice.get(1));
+       // buttonExercice.add(button);
+       // buttonExercice.add(button2);
+       // layout.addView(buttonExercice.get(0));
+       // layout.addView(LessonVideo.get(1),1100,800);
+       // layout.addView(buttonExercice.get(1));
 
-        playYoutubeVideo(LessonVideo.get(1),"W4hTJybfU7s");
+       // playYoutubeVideo(LessonVideo.get(1),"qAHMCZBwYo4");
         //playYoutubeVideo(LessonVideo.get(1),"qAHMCZBwYo4");
+        PlayWithButton(findViewById(R.id.bouton),LessonVideo.get(1));
+
+        retrofit = new Retrofit.Builder().baseUrl(base_Url).addConverterFactory(GsonConverterFactory.create()).build();
+        retrofitLessonInterface = retrofit.create(RetrofitLessonInterface.class);
+
+
 
     }
 
@@ -183,6 +207,7 @@ public class LessonActivity extends YouTubeBaseActivity {
                 public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
                     //load video
                     youTubePlayer.loadVideo(id);
+
                     //startvideo
                     youTubePlayer.play();
                     //youTubePlayer.play();
@@ -191,8 +216,9 @@ public class LessonActivity extends YouTubeBaseActivity {
                 }
                 @Override
                 public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-                    Toast.makeText(getApplicationContext(),"initialisation failed",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),youTubeInitializationResult.name().toString(),Toast.LENGTH_SHORT).show();
                 }
+
             };
             videoYoutube.initialize("AIzaSyAetr811-xxB2NelrAHbKRq_ohGfYWXwxU",listener);
         }
@@ -210,4 +236,38 @@ public class LessonActivity extends YouTubeBaseActivity {
        // });
     }
 
+    public void PlayWithButton(Button button,YouTubePlayerView youTubePlayerView){
+
+        button.setOnClickListener(new Button.OnClickListener(){
+           @Override
+           public void onClick(View view){
+               Log.d("videoclick","onclick");
+               getyoutube();
+           }
+       });
+    }
+
+    public void getyoutube()
+    {
+        Call<Lesson> call = retrofitLessonInterface.GetAllYoutube();
+
+        call.enqueue(new Callback<Lesson>() {
+            @Override
+            public void onResponse(Call<Lesson> call, Response<Lesson> response) {
+                Lesson lesson = response.body();
+
+                if(lesson!=null) {
+                    String lessonData = lesson.getData().get(0).getVideo();
+                    Toast.makeText(LessonActivity.this,lessonData,Toast.LENGTH_SHORT).show();
+                    playYoutubeVideo(findViewById(R.id.youtube),lessonData);
+                }
+            }
+            @Override
+            public void onFailure(Call<Lesson> call, Throwable t) {
+                //erreur connexion ou autre exception test 2
+                Toast.makeText(LessonActivity.this,t.getMessage(),Toast.LENGTH_LONG).show();
+
+            }
+        });
+    }
 }
