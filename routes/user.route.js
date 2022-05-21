@@ -47,30 +47,48 @@ router.post("/login", (req, res, next) => {
             authToken: token,
           },
         }
-      ).then((result) => {
-        if (result) {
-          return res.status(200).json({
-            expiresIn: 28800,
-            success: true,
-            message: "Auth success!",
-            data: {
-              _id: fetchedUser._id,
-              email: fetchedUser.email,
-              firstname: fetchedUser.firstname,
-              lastname: fetchedUser.lastname,
-            },
-          });
-        } else {
-          return res.status(401).json({
+      )
+        .then((result) => {
+          if (result) {
+            return res.status(200).json({
+              expiresIn: 28800,
+              success: true,
+              message: "Auth success!",
+              data: {
+                _id: fetchedUser._id,
+                email: fetchedUser.email,
+                firstname: fetchedUser.firstname,
+                lastname: fetchedUser.lastname,
+              },
+            });
+          } else {
+            return res.status(401).json({
+              success: false,
+              message: "Auth failed!",
+              data: {},
+            });
+          }
+        })
+        .catch((err) => {
+          if(err.name === 'ValidationError'){
+            return res.status(400).json({
+              success: false,
+              message: err.message
+            });
+          }
+          return res.status(500).json({
             success: false,
-            message: "Auth failed!",
-            data: {},
+            message: err,
           });
-        }
-      });
+        });
     })
-    .catch((e) => {
-      console.log(e);
+    .catch((err) => {
+      if(err.name === 'ValidationError'){
+        return res.status(400).json({
+          success: false,
+          message: err.message
+        });
+      }
       return res.status(500).json({
         success: false,
         message: err,
@@ -101,8 +119,13 @@ router.post("/logout", (req, res, next) => {
         });
       }
     })
-    .catch((e) => {
-      console.log(e);
+    .catch((err) => {
+      if(err.name === 'ValidationError'){
+        return res.status(400).json({
+          success: false,
+          message: err.message
+        });
+      }
       return res.status(500).json({
         success: false,
         message: err,
@@ -113,24 +136,26 @@ router.post("/logout", (req, res, next) => {
 // SIGNUP
 router.post("/signup", (req, res, next) => {
   bcrypt.hash(req.body.password, 10).then((hash) => {
-    try {
-      const user = new User({
-        email: req.body.email,
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        password: hash,
-        authToken: null,
-      });
-      User.findOne({ email: req.body.email })
-        .then((user1) => {
-          if (user1) {
-            return res.status(401).json({
-              success: false,
-              message: "User Already Exist",
-            });
-          }
+    const user = new User({
+      email: req.body.email,
+      firstname: req.body.firstname,
+      lastname: req.body.lastname,
+      password: hash,
+      authToken: null,
+    });
 
-          user.save().then((result) => {
+    User.findOne({ email: req.body.email })
+      .then((user1) => {
+        if (user1) {
+          return res.status(401).json({
+            success: false,
+            message: "User Already Exist",
+          });
+        }
+
+        user
+          .save()
+          .then((result) => {
             if (!result) {
               return res.status(400).json({
                 success: false,
@@ -148,21 +173,32 @@ router.post("/signup", (req, res, next) => {
                 lastname: result.lastname,
               },
             });
+          })
+          .catch((err) => {
+            if(err.name === 'ValidationError'){
+              return res.status(400).json({
+                success: false,
+                message: err.message
+              });
+            }
+            return res.status(500).json({
+              success: false,
+              message: err,
+            });
           });
-        })
-        .catch((err) => {
-          console.log(err);
-          return res.status(500).json({
+      })
+      .catch((err) => {
+        if(err.name === 'ValidationError'){
+          return res.status(400).json({
             success: false,
-            message: err,
+            message: err.message
           });
+        }
+        return res.status(500).json({
+          success: false,
+          message: err,
         });
-    } catch (error) {
-      res.status(400).json({
-        success: false,
-        message: error,
       });
-    }
   });
 });
 
