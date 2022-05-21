@@ -1,7 +1,9 @@
 package com.example.educatif.view;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
@@ -9,17 +11,21 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -31,6 +37,7 @@ import com.example.educatif.Utils.RetrofitLessonInterface;
 import com.example.educatif.controller.LessonController;
 import com.example.educatif.model.Lesson;
 import com.example.educatif.model.LessonData;
+import com.google.android.material.textfield.TextInputEditText;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -50,6 +57,8 @@ public class ListLessonActivity extends AppCompatActivity {
     private Retrofit retrofit;
     private RetrofitLessonInterface retrofitLessonInterface;
     private String base_Url="https://m1p9android-jm.herokuapp.com";
+    SwitchCompat switchCompat;
+    int color;
     private LoadingDialog loadingDialog;
 
     @Override
@@ -73,7 +82,8 @@ public class ListLessonActivity extends AppCompatActivity {
             public void onResponse(Call<Lesson> call, Response<Lesson> response) {
                 lessonController.lesson = response.body();
                 //gotolesson(listLessonButton);
-                constructiconlessonlist();
+                color = Color.GRAY;
+                constructiconlessonlist(color);
                 loadingDialog.dismissDialog();
                 Log.d("SetLesson","lecon mis a jour");
             }
@@ -134,8 +144,9 @@ public class ListLessonActivity extends AppCompatActivity {
 
 
     @SuppressLint("ResourceType")
-    public void constructiconlessonlist(){
-        View view = getLayoutInflater().inflate(R.layout.theme, null);
+    public void constructiconlessonlist(int color){
+        View view = new View(this);
+        view = getLayoutInflater().inflate(R.layout.theme, null);
         TableLayout tableLayout = view.findViewById(R.id.table_layout);
         int length = lessonController.lesson.getData().size();
         int k = 0;
@@ -170,7 +181,7 @@ public class ListLessonActivity extends AppCompatActivity {
                 textparams.height=150;
                 textparams.width=50;
                 textView.setGravity(Gravity.CENTER_HORIZONTAL);
-                textView.setTextColor(Color.BLACK);
+                textView.setTextColor(color);
                 textView.setAllCaps(true);
                 textView.setTextSize(20);
                 textView.setText(lessonController.lesson.getData().get(k).getTitle());
@@ -197,5 +208,65 @@ public class ListLessonActivity extends AppCompatActivity {
         linearLayout.addView(view);
     }
 
+    public void buttonClicked(View view) {
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.dialogpreferences, null);
+       /* final TextInputEditText etUsername = alertLayout.findViewById(R.id.tiet_username);
+        final TextInputEditText etPassword = alertLayout.findViewById(R.id.tiet_password); */
+        switchCompat = alertLayout.findViewById(R.id.switchNight);
+
+        String uri = "@drawable/bg_image";  // where myresource (without the extension) is the file
+        String uridark = "@drawable/bg_dark";  // where myresource (without the extension) is the file
+
+        int imageResource = getResources().getIdentifier(uri, null, getPackageName());
+        int imageResourceDark = getResources().getIdentifier(uridark, null, getPackageName());
+        switchCompat.setChecked(true);
+        if (switchCompat.isChecked()){
+            color = Color.WHITE;
+
+            ListLessonActivity.this.findViewById(R.id.principalViewLesson).setBackgroundResource(imageResourceDark);
+            //constructiconlessonlist(Color.WHITE);
+        }
+        else {
+            color = Color.BLUE;
+            ListLessonActivity.this.findViewById(R.id.principalViewLesson).setBackgroundResource(imageResource);
+            //constructiconlessonlist(Color.BLACK);
+        }
+
+        switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // do something, the isChecked will be
+                // true if the switch is in the On position
+                if (switchCompat.isChecked()){
+                    color = Color.WHITE;
+
+                    ListLessonActivity.this.findViewById(R.id.principalViewLesson).setBackgroundResource(imageResourceDark);
+                    //constructiconlessonlist(Color.WHITE);
+                }
+                else {
+                    color = Color.BLUE;
+                    ListLessonActivity.this.findViewById(R.id.principalViewLesson).setBackgroundResource(imageResource);
+                    //constructiconlessonlist(Color.BLACK);
+                }
+            }
+        });
+
+       AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        /* alert.setTitle("Login");*/
+        // this is set the view from XML inside AlertDialog
+        alert.setView(alertLayout);
+        // disallow cancel of AlertDialog on click of back button and outside touch
+        alert.setCancelable(false);
+        alert.setNegativeButton("Retour", (dialog, which) -> Toast.makeText(getBaseContext(), "Theme Modifier", Toast.LENGTH_SHORT).show());
+
+       /* alert.setPositiveButton("Done", (dialog, which) -> {
+            String user = etUsername.getText().toString();
+            String pass = etPassword.getText().toString();
+            Toast.makeText(getBaseContext(), "Username: " + user + " Password: " + pass, Toast.LENGTH_LONG).show();
+        });*/
+        AlertDialog dialog = alert.create();
+        dialog.show();
+
+    }
 
 }
