@@ -113,56 +113,56 @@ router.post("/logout", (req, res, next) => {
 // SIGNUP
 router.post("/signup", (req, res, next) => {
   bcrypt.hash(req.body.password, 10).then((hash) => {
-    const user = new User({
-      email: req.body.email,
-      firstname: req.body.firstname,
-      lastname: req.body.lastname,
-      password: hash,
-      authToken: null,
-    }).catch((err) => {
-      console.log(err);
-      return res.status(500).json({
-        success: false,
-        message: "Fields required"
+    try {
+      const user = new User({
+        email: req.body.email,
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        password: hash,
+        authToken: null,
       });
-    });
-
-    User.findOne({ email: req.body.email })
-      .then((user1) => {
-        if (user1) {
-          return res.status(401).json({
-            success: false,
-            message: "User Already Exist",
-          });
-        }
-
-        user.save().then((result) => {
-          if (!result) {
-            return res.status(400).json({
+      User.findOne({ email: req.body.email })
+        .then((user1) => {
+          if (user1) {
+            return res.status(401).json({
               success: false,
-              message: "Error Creating User",
+              message: "User Already Exist",
             });
           }
 
-          return res.status(201).json({
-            success: true,
-            message: "User created",
-            data: {
-              _id: result._id,
-              email: result.email,
-              firstname: result.firstname,
-              lastname: result.lastname,
-            },
+          user.save().then((result) => {
+            if (!result) {
+              return res.status(400).json({
+                success: false,
+                message: "Error Creating User",
+              });
+            }
+
+            return res.status(201).json({
+              success: true,
+              message: "User created",
+              data: {
+                _id: result._id,
+                email: result.email,
+                firstname: result.firstname,
+                lastname: result.lastname,
+              },
+            });
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          return res.status(500).json({
+            success: false,
+            message: err,
           });
         });
-      })
-      .catch((err) => {
-        console.log(err);
-        return res.status(500).json({
-          success: false,
-          message: err,
-        });
+    } catch (error) {
+      res.status(400).json({
+        success: false,
+        message: error,
       });
+    }
   });
 });
 
