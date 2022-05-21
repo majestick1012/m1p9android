@@ -30,7 +30,7 @@ public class SignupTabFragment extends Fragment {
 
     View root;
     LoginController loginController;
-    private EditText name,email,password,phoneNumber;
+    private EditText name,email,password,lastname;
     private TabLayout tabLayout;
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
@@ -44,7 +44,7 @@ public class SignupTabFragment extends Fragment {
         name = root.findViewById(R.id.name);
         email = root.findViewById(R.id.email);
         password = root.findViewById(R.id.pass);
-        phoneNumber = root.findViewById(R.id.mobile);
+        lastname = root.findViewById(R.id.lastname);
 
 
         retrofit = new Retrofit.Builder().baseUrl(base_Url).addConverterFactory(GsonConverterFactory.create()).build();
@@ -74,7 +74,7 @@ public class SignupTabFragment extends Fragment {
                 String textName = name.getText().toString();
                 String textEmail = email.getText().toString();
                 String textPassword = password.getText().toString();
-                String textPhoneNumber = phoneNumber.getText().toString();
+                String textPhoneNumber = lastname.getText().toString();
                 loginController.login = new Login();
                 AccessApi accessApi = new AccessApi();
                 accessApi.insertUser(loginController.login,root.getContext());
@@ -93,12 +93,12 @@ public class SignupTabFragment extends Fragment {
                 String textName = name.getText().toString();
                 String textEmail = email.getText().toString();
                 String textPassword = password.getText().toString();
-                String textPhoneNumber = phoneNumber.getText().toString();
+                String textlastname = lastname.getText().toString();
 
                 HashMap<String,String> map = new HashMap<>();
                 map.put("email",textEmail);
                 map.put("firstname",textName);
-                map.put("lastname",textPhoneNumber);
+                map.put("lastname",textlastname);
                 map.put("password",textPassword);
 
                 Call<Void> call = retrofitInterface.executeSignUp(map);

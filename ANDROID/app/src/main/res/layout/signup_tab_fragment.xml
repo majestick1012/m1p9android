@@ -6,13 +6,13 @@
     android:background="@color/purple_200">
 
     <EditText
-        android:id="@+id/name"
+        android:id="@+id/email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:autofillHints=""
         android:background="@drawable/edit_text_bg"
-        android:hint="@string/nom"
-        android:inputType="text"
+        android:hint="E-mail"
+        android:inputType="textWebEmailAddress|textEmailAddress"
         android:minHeight="65dp"
         android:paddingLeft="15dp"
         android:paddingTop="10dp"
@@ -26,17 +26,43 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias=".05"
+        app:layout_constraintWidth_percent=".8"
+         />
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:background="@drawable/edit_text_bg"
+        android:hint="Nom"
+        android:inputType="text"
+        android:minHeight="65dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="10dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="10dp"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias=".5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email"
+        app:layout_constraintVertical_bias="0"
         app:layout_constraintWidth_percent=".8" />
 
+
+
     <EditText
-        android:id="@+id/email"
+        android:id="@+id/lastname"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:autofillHints=""
         android:background="@drawable/edit_text_bg"
-        android:hint="@string/email"
-        android:inputType="textWebEmailAddress|textEmailAddress"
+        android:hint="Prénom"
+        android:importantForAutofill="no"
+        android:inputType="text"
         android:minHeight="65dp"
         android:paddingLeft="15dp"
         android:paddingTop="10dp"
@@ -53,36 +79,12 @@
         app:layout_constraintWidth_percent=".8" />
 
     <EditText
-        android:id="@+id/mobile"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/edit_text_bg"
-        android:hint="@string/phone_number"
-        android:importantForAutofill="no"
-        android:inputType="number"
-        android:minHeight="65dp"
-        android:paddingLeft="15dp"
-        android:paddingTop="10dp"
-        android:paddingRight="15dp"
-        android:paddingBottom="10dp"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias=".5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email"
-        app:layout_constraintVertical_bias="0"
-        app:layout_constraintWidth_percent=".8" />
-
-    <EditText
         android:id="@+id/pass"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:background="@drawable/edit_text_bg"
-        android:hint="@string/mot_de_passe"
+        android:hint="Mot de Passe"
         android:importantForAutofill="no"
         android:inputType="textPassword"
         android:minHeight="65dp"
@@ -96,31 +98,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias=".5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mobile"
-        app:layout_constraintVertical_bias="0"
-        app:layout_constraintWidth_percent=".8" />
-
-    <EditText
-        android:id="@+id/confirmpass"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/edit_text_bg"
-        android:hint="@string/confirmation_mot_de_passe"
-        android:importantForAutofill="no"
-        android:inputType="textPassword"
-        android:minHeight="65dp"
-        android:paddingLeft="15dp"
-        android:paddingTop="10dp"
-        android:paddingRight="15dp"
-        android:paddingBottom="10dp"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias=".5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pass"
+        app:layout_constraintTop_toBottomOf="@+id/lastname"
         app:layout_constraintVertical_bias="0"
         app:layout_constraintWidth_percent=".8" />
 
@@ -128,7 +106,6 @@
         android:id="@+id/button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:height="65dp"
         android:background="@drawable/button_bg"
         android:text="@string/signup"
@@ -139,8 +116,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/confirmpass"
-        app:layout_constraintVertical_bias="0"
+        app:layout_constraintTop_toBottomOf="@+id/pass"
         app:layout_constraintWidth_percent=".8" />
 
 
