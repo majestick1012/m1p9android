@@ -50,6 +50,7 @@ public class ListLessonActivity extends AppCompatActivity {
     private Retrofit retrofit;
     private RetrofitLessonInterface retrofitLessonInterface;
     private String base_Url="https://m1p9android-jm.herokuapp.com";
+    private LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,23 +60,27 @@ public class ListLessonActivity extends AppCompatActivity {
         lessonController = LessonController.getInstance();
         retrofit = new Retrofit.Builder().baseUrl(base_Url).addConverterFactory(GsonConverterFactory.create()).build();
         retrofitLessonInterface = retrofit.create(RetrofitLessonInterface.class);
+        loadingDialog = new LoadingDialog(ListLessonActivity.this);
         setListLesson();
 
     }
     public void setListLesson()
     {
         Call<Lesson> call = retrofitLessonInterface.GetAllYoutube();
+        loadingDialog.startLoadingDialog();
         call.enqueue(new Callback<Lesson>() {
             @Override
             public void onResponse(Call<Lesson> call, Response<Lesson> response) {
                 lessonController.lesson = response.body();
                 //gotolesson(listLessonButton);
                 constructiconlessonlist();
+                loadingDialog.dismissDialog();
                 Log.d("SetLesson","lecon mis a jour");
             }
             @Override
             public void onFailure(Call<Lesson> call, Throwable t) {
                 //erreur connexion ou autre exception test 2
+                loadingDialog.dismissDialog();
                 Toast.makeText(ListLessonActivity.this,t.getMessage(),Toast.LENGTH_LONG).show();
             }
         });
@@ -103,6 +108,7 @@ public class ListLessonActivity extends AppCompatActivity {
             view.setId(i);
             TextView textViewToChange = (TextView) view.findViewById(R.id.title);
             textViewToChange.setText(lessonData.getTitle());
+            textViewToChange.setAllCaps(true);
 
             TextView textviewDesc = (TextView) view.findViewById(R.id.artist);
             textviewDesc.setText(lessonData.getDescription());
@@ -138,24 +144,24 @@ public class ListLessonActivity extends AppCompatActivity {
         tableRow.setGravity(Gravity.CENTER);
         TableRow texttableRow = new TableRow(this);
         texttableRow.setGravity(Gravity.CENTER);
-            for(int i=0;i<4;i++){
+            for(int i=0;i<1;i++){
                 if(k>=length)break;
                 CardView cardView = new CardView(view.getContext());
                 CardView.LayoutParams layoutParamscardView = new CardView.LayoutParams(160,160);
                 layoutParamscardView.height = 160;
                 layoutParamscardView.width = 160;
-                cardView.setRadius(40);
+                cardView.setRadius(50);
                 ImageView imageView = new ImageView(view.getContext());
                 ViewGroup.LayoutParams imageparams = new ViewGroup.LayoutParams(150,150);
-                imageparams.height=150;
-                imageparams.width=150;
+                imageparams.height=300;
+                imageparams.width=500;
                 Picasso.get().load(lessonController.lesson.getData().get(k).getImage()).into(imageView);
                 imageView.setLayoutParams(imageparams);
-                imageView.setBackgroundColor(Color.rgb(239,210,83));
+                imageView.setBackgroundColor(Color.parseColor("#2bc48e"));
                 cardView.addView(imageView,imageparams);
                 cardView.setLayoutParams(layoutParamscardView);
                 tableRow.addView(new TextView(this),40,40);
-                tableRow.addView(cardView,150,150);
+                tableRow.addView(cardView,500,300);
 
                 imageView.setId(k);
 
@@ -165,6 +171,8 @@ public class ListLessonActivity extends AppCompatActivity {
                 textparams.width=50;
                 textView.setGravity(Gravity.CENTER_HORIZONTAL);
                 textView.setTextColor(Color.BLACK);
+                textView.setAllCaps(true);
+                textView.setTextSize(20);
                 textView.setText(lessonController.lesson.getData().get(k).getTitle());
                 textView.setLayoutParams(textparams);
                 texttableRow.addView(new TextView(this),40,40);

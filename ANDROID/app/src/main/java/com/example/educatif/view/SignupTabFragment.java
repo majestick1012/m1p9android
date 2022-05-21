@@ -25,13 +25,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import com.example.educatif.model.Login;
 
 public class SignupTabFragment extends Fragment {
 
     View root;
-    LoginController loginController;
+    private LoginController loginController;
     private EditText name,email,password,lastname;
     private TabLayout tabLayout;
+    private LoadingDialog loadingDialog;
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
     private String base_Url="https://m1p9android-jm.herokuapp.com";
@@ -41,6 +43,7 @@ public class SignupTabFragment extends Fragment {
         root = inflater.inflate(R.layout.signup_tab_fragment,container,false);
         //getApiget();
         loginController = LoginController.getInstanceLogin();
+        loadingDialog = new LoadingDialog(getActivity());
         name = root.findViewById(R.id.name);
         email = root.findViewById(R.id.email);
         password = root.findViewById(R.id.pass);
@@ -101,23 +104,29 @@ public class SignupTabFragment extends Fragment {
                 map.put("lastname",textlastname);
                 map.put("password",textPassword);
 
-                Call<Void> call = retrofitInterface.executeSignUp(map);
+                Call<Login> call = retrofitInterface.executeSignUp(map);
+                loadingDialog.startLoadingDialog();
 
-                call.enqueue(new Callback<Void>() {
+                call.enqueue(new Callback<Login>() {
                     @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
-
-                        //Toast.makeText(root.getContext(),response.body().toString(),Toast.LENGTH_SHORT).show();
-                        Toast.makeText(root.getContext(), "Insertion fait", Toast.LENGTH_SHORT).show();
+                    public void onResponse(Call<Login> call, Response<Login> response) {
+                        Login login = response.body();
+                        if(login!=null && login.getSuccess()) {
+                            loadingDialog.dismissDialog();
+                            Toast.makeText(root.getContext(),login.getMessage(),Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            loadingDialog.dismissDialog();
+                            Toast.makeText(root.getContext(),"Echec de l'inscription",Toast.LENGTH_LONG).show();
+                        }
                     }
 
                     @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
-                            Toast.makeText(root.getContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+                    public void onFailure(Call<Login> call, Throwable t) {
+                        loadingDialog.dismissDialog();
+                        Toast.makeText(root.getContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
                     }
                 });
-
-                //Toast.makeText(root.getContext(), "Insertion fait", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -25,4 +25,5 @@
     <string name="phone_number">Numéro</string>
     <string name="confirmation_mot_de_passe">Confirmation mot de passe</string>
     <string name="nom">Nom</string>
+    <string name="chargement">Chargement...</string>
 </resources>

@@ -28,6 +28,7 @@ public class LoginTabFragment extends Fragment {
 
     View root;
     private LoginController loginController;
+    private LoadingDialog loadingDialog;
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
     private String base_Url="https://m1p9android-jm.herokuapp.com";
@@ -38,6 +39,7 @@ public class LoginTabFragment extends Fragment {
         root = inflater.inflate(R.layout.login_tab_fragment,container,false);
         name = root.findViewById(R.id.email);
         password = root.findViewById(R.id.pass);
+        loadingDialog = new LoadingDialog(getActivity());
         //verifyApiLogin();
         VerifyLogin();
         retrofit = new Retrofit.Builder().baseUrl(base_Url).addConverterFactory(GsonConverterFactory.create()).build();
@@ -64,6 +66,7 @@ public class LoginTabFragment extends Fragment {
     }
 
     private void VerifyLogin() {
+
         loginController = LoginController.getInstanceLogin();
         ((Button)root.findViewById(R.id.button)).setOnClickListener(new Button.OnClickListener(){
             public void onClick(View v) {
@@ -76,24 +79,28 @@ public class LoginTabFragment extends Fragment {
                 map.put("password",passwordText);
 
                 Call<Login> call = retrofitInterface.executeLogin(map);
+                loadingDialog.startLoadingDialog();
 
                 call.enqueue(new Callback<Login>() {
                     @Override
                     public void onResponse(Call<Login> call, Response<Login> response) {
                         Login login = response.body();
-                            if(login!=null && login.getSuccess()) {
+                        if(login!=null && login.getSuccess()) {
                             Toast.makeText(root.getContext(),"Connexion réussie !",Toast.LENGTH_SHORT).show();
                             //Intent intent = new Intent(root.getContext(), LessonActivity.class);
                             Intent intent = new Intent(root.getContext(), ListLessonActivity.class);
+                            loadingDialog.dismissDialog();
                             startActivity(intent);
-                            }
-                            else{
-                                Toast.makeText(root.getContext(),"echec de l'authentification",Toast.LENGTH_LONG).show();
-                            }
+                        }
+                        else{
+                            loadingDialog.dismissDialog();
+                            Toast.makeText(root.getContext(),"Echec de l'authentification",Toast.LENGTH_LONG).show();
+                        }
                     }
                     @Override
                     public void onFailure(Call<Login> call, Throwable t) {
                         //erreur connexion ou autre exception test 2
+                        loadingDialog.startLoadingDialog();
                         Toast.makeText(root.getContext(),t.getMessage(),Toast.LENGTH_LONG).show();
 
                     }

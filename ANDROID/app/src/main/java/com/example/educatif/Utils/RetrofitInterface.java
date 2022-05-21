@@ -16,7 +16,7 @@ public interface RetrofitInterface {
 
     @Headers("authorization:token")
     @POST("/api/user/signup")
-    Call<Void> executeSignUp(@Body HashMap<String,String>map);
+    Call<Login> executeSignUp(@Body HashMap<String,String>map);
 
 
 }
