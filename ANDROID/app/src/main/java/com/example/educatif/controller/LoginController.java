@@ -40,7 +40,7 @@ public final class LoginController {
     }
 
     public Intent verifyLogin(String name, String password, Context context) {
-        login = new Login(name,password);
+        login = new Login();
         AccessApi accessApi = new AccessApi();
         return accessApi.findUser(login,context);
     }

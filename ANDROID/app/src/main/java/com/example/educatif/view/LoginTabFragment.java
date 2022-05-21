@@ -30,7 +30,7 @@ public class LoginTabFragment extends Fragment {
     private LoginController loginController;
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
-    private String base_Url="http://testnodeekaly.herokuapp.com";
+    private String base_Url="https://m1p9android-jm.herokuapp.com";
 
 
     EditText name,password;
@@ -72,7 +72,7 @@ public class LoginTabFragment extends Fragment {
                 HashMap<String,String> map = new HashMap<>();
 
                 //recuperation des valeurs du login a verifier
-                map.put("name",nameText);
+                map.put("email",nameText);
                 map.put("password",passwordText);
 
                 Call<Login> call = retrofitInterface.executeLogin(map);
@@ -80,12 +80,15 @@ public class LoginTabFragment extends Fragment {
                 call.enqueue(new Callback<Login>() {
                     @Override
                     public void onResponse(Call<Login> call, Response<Login> response) {
-                        loginController.login = response.body();
-                            if(loginController.login!=null) {
+                        Login login = response.body();
+                            if(login!=null && login.getSuccess()) {
                             Toast.makeText(root.getContext(),"Connexion réussie !",Toast.LENGTH_SHORT).show();
                             //Intent intent = new Intent(root.getContext(), LessonActivity.class);
                             Intent intent = new Intent(root.getContext(), ListLessonActivity.class);
                             startActivity(intent);
+                            }
+                            else{
+                                Toast.makeText(root.getContext(),"echec de l'authentification",Toast.LENGTH_LONG).show();
                             }
                     }
                     @Override

@@ -34,7 +34,7 @@ public class SignupTabFragment extends Fragment {
     private TabLayout tabLayout;
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
-    private String base_Url="http://10.0.2.2:3000";
+    private String base_Url="https://m1p9android-jm.herokuapp.com";
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -75,7 +75,7 @@ public class SignupTabFragment extends Fragment {
                 String textEmail = email.getText().toString();
                 String textPassword = password.getText().toString();
                 String textPhoneNumber = phoneNumber.getText().toString();
-                loginController.login = new Login(textName,textEmail,textPassword,textPhoneNumber);
+                loginController.login = new Login();
                 AccessApi accessApi = new AccessApi();
                 accessApi.insertUser(loginController.login,root.getContext());
                 Intent intent = new Intent(root.getContext(), LoginActivity.class);
@@ -96,10 +96,10 @@ public class SignupTabFragment extends Fragment {
                 String textPhoneNumber = phoneNumber.getText().toString();
 
                 HashMap<String,String> map = new HashMap<>();
-                map.put("name",textName);
                 map.put("email",textEmail);
+                map.put("firstname",textName);
+                map.put("lastname",textPhoneNumber);
                 map.put("password",textPassword);
-                map.put("phonenumber",textPhoneNumber);
 
                 Call<Void> call = retrofitInterface.executeSignUp(map);
 

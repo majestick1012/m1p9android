@@ -60,8 +60,8 @@ public class AccessApi implements AsyncResponse {
         Intent intent = null;
         AccesHTTP accesHTTP = new AccesHTTP();
         accesHTTP.setTypesend("POST");
-        accesHTTP.addParam("name",login.getName());
-        accesHTTP.addParam("password",login.getPassword());
+        //accesHTTP.addParam("name",login.getName());
+        //accesHTTP.addParam("password",login.getPassword());
         accesHTTP.delegate = this;
         accesHTTP.execute(SERVERADDR);
         while(accesHTTP.isExecutedinbackground){}
@@ -78,10 +78,10 @@ public class AccessApi implements AsyncResponse {
     public void insertUser(Login login, Context context){
         AccesHTTP accesHTTP = new AccesHTTP();
         accesHTTP.setTypesend("POST");
-        accesHTTP.addParam("name",login.getName());
-        accesHTTP.addParam("password",login.getPassword());
-        accesHTTP.addParam("email",login.getEmail());
-        accesHTTP.addParam("phoneNumber",login.getPhoneNumber());
+        //accesHTTP.addParam("name",login.getName());
+        //accesHTTP.addParam("password",login.getPassword());
+        //accesHTTP.addParam("email",login.getEmail());
+        //accesHTTP.addParam("phoneNumber",login.getPhoneNumber());
         String linkApiInsert = "http://192.168.1.115:3000/insertuser";
         accesHTTP.delegate = this;
         accesHTTP.execute(linkApiInsert);

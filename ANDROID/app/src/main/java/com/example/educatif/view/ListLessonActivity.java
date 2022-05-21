@@ -11,7 +11,9 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.educatif.R;
@@ -20,6 +22,7 @@ import com.example.educatif.Utils.RetrofitLessonInterface;
 import com.example.educatif.controller.LessonController;
 import com.example.educatif.model.Lesson;
 import com.example.educatif.model.LessonData;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,12 +86,27 @@ public class ListLessonActivity extends AppCompatActivity {
             button.setGravity(Gravity.CENTER);
             button.setId(i);
             button.setBackground(ContextCompat.getDrawable(this, R.drawable.button_bg));
-            linearLayout.addView(button);
+            //linearLayout.addView(button);
 
-            button.setOnClickListener(new Button.OnClickListener(){
+            View view = getLayoutInflater().inflate(R.layout.row, null);
+            view.setId(i);
+            TextView textViewToChange = (TextView) view.findViewById(R.id.title);
+            textViewToChange.setText(lessonData.getTitle());
+
+            TextView textviewDesc = (TextView) view.findViewById(R.id.artist);
+            textviewDesc.setText(lessonData.getDescription());
+
+            ImageView icone = (ImageView) view.findViewById(R.id.list_image);
+            Picasso.get().load(lessonData.getImage()).into(icone);
+
+            linearLayout.addView(view);
+            linearLayout.addView(new TextView(this));
+
+
+            view.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view){
-                    lessonController.lessonData = lessonController.lesson.getData().get(button.getId());
+                    lessonController.lessonData = lessonController.lesson.getData().get(view.getId());
                     Intent intent = new Intent(ListLessonActivity.this, LessonActivity.class);
                     startActivity(intent);
                 }
