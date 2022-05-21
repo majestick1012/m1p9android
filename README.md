@@ -15,3 +15,10 @@ Application éducative pour les petits enfants
 - Encryption : bcrypt
 - Swagger : swagger-ui-express
 - Database : MongoDB
+
+# Thèmes
+- Couleur primaire : rouge YouTube
+- Couleur secondaire : bleu Facebook
+- Couleur boutton : #212121
+- Couleur de fond : (gris clair)
+- Couleur texte : blanc, noir
