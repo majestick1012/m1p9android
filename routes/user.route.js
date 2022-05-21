@@ -119,6 +119,12 @@ router.post("/signup", (req, res, next) => {
       lastname: req.body.lastname,
       password: hash,
       authToken: null,
+    }).catch((err) => {
+      console.log(err);
+      return res.status(500).json({
+        success: false,
+        message: "Fields required"
+      });
     });
 
     User.findOne({ email: req.body.email })
