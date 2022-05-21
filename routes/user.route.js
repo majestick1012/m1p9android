@@ -49,7 +49,7 @@ router.post("/login", (req, res, next) => {
         }
       ).then((result) => {
         if (result) {
-          res.status(200).json({
+          return res.status(200).json({
             expiresIn: 28800,
             success: true,
             message: "Auth success!",
@@ -61,7 +61,7 @@ router.post("/login", (req, res, next) => {
             },
           });
         } else {
-          res.status(401).json({
+          return res.status(401).json({
             success: false,
             message: "Auth failed!",
             data: {},
@@ -71,6 +71,10 @@ router.post("/login", (req, res, next) => {
     })
     .catch((e) => {
       console.log(e);
+      return res.status(500).json({
+        success: false,
+        message: err,
+      });
     });
 });
 
@@ -86,12 +90,12 @@ router.post("/logout", (req, res, next) => {
   )
     .then((result) => {
       if (result) {
-        res.status(200).json({
+        return res.status(200).json({
           success: true,
           message: "Logout successful!",
         });
       } else {
-        res.status(500).json({
+        return res.status(500).json({
           success: false,
           message: "Error logout user",
         });
@@ -99,6 +103,10 @@ router.post("/logout", (req, res, next) => {
     })
     .catch((e) => {
       console.log(e);
+      return res.status(500).json({
+        success: false,
+        message: err,
+      });
     });
 });
 
@@ -124,13 +132,13 @@ router.post("/signup", (req, res, next) => {
 
         user.save().then((result) => {
           if (!result) {
-            return res.status(500).json({
+            return res.status(400).json({
               success: false,
               message: "Error Creating User",
             });
           }
 
-          res.status(201).json({
+          return res.status(201).json({
             success: true,
             message: "User created",
             data: {
@@ -144,7 +152,7 @@ router.post("/signup", (req, res, next) => {
       })
       .catch((err) => {
         console.log(err);
-        res.status(500).json({
+        return res.status(500).json({
           success: false,
           message: err,
         });
