@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TableLayout
+        android:id="@+id/table_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        >
+
+        <TableRow
+            android:id="@+id/table_row_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+
+           <!--  <androidx.cardview.widget.CardView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:cardCornerRadius="20dp"
+                android:layout_margin="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="center"
+                android:elevation="10dp">
+                <ImageView
+
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/logo"
+                     />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:cardCornerRadius="20dp"
+                android:layout_margin="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="center"
+                android:elevation="10dp">
+            <ImageView
+
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+
+                android:src="@drawable/logo" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:cardCornerRadius="20dp"
+                android:layout_margin="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="center"
+                android:elevation="10dp">
+                <ImageView
+
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+
+                    android:src="@drawable/logo" />
+            </androidx.cardview.widget.CardView> -->
+        </TableRow>
+
+        <!-- <TableRow
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:gravity="center">
+
+             <TextView
+                 android:id="@+id/textView3"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="TextView"
+                 android:layout_marginRight="10dp"
+                 android:layout_marginBottom="10dp"
+                 android:layout_marginTop="5dp"
+                 android:layout_gravity="center"/>
+
+             <TextView
+                 android:id="@+id/textView2"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="center"
+                 android:layout_marginRight="10dp"
+                 android:text="TextView"
+                 android:layout_marginBottom="10dp"
+                 android:layout_marginTop="5dp"/>
+
+             <TextView
+                 android:id="@+id/textView"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="TextView"
+                 android:layout_marginRight="10dp"
+                 android:layout_gravity="center"
+                 android:layout_marginBottom="10dp"
+                 android:layout_marginTop="5dp"/>
+
+         </TableRow>
+
+         <TableRow
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:gravity="center">
+             <androidx.cardview.widget.CardView
+                 android:layout_width="100dp"
+                 android:layout_height="100dp"
+                 app:cardCornerRadius="20dp"
+                 android:layout_margin="5dp"
+                 android:layout_marginRight="10dp"
+                 android:layout_gravity="center"
+                 android:elevation="10dp">
+                 <ImageView
+
+                     android:layout_width="100dp"
+                     android:layout_height="100dp"
+                     android:layout_gravity="center"
+
+                     android:src="@drawable/logo" />
+             </androidx.cardview.widget.CardView>
+
+
+             <androidx.cardview.widget.CardView
+                 android:layout_width="100dp"
+                 android:layout_height="100dp"
+                 app:cardCornerRadius="20dp"
+                 android:layout_margin="5dp"
+                 android:layout_marginRight="10dp"
+                 android:layout_gravity="center"
+                 android:elevation="10dp">
+                 <ImageView
+                     android:layout_width="100dp"
+                     android:layout_height="100dp"
+                     android:layout_gravity="center"
+
+                     android:src="@drawable/logo" />
+             </androidx.cardview.widget.CardView>
+
+             <androidx.cardview.widget.CardView
+                 android:layout_width="100dp"
+                 android:layout_height="100dp"
+                 app:cardCornerRadius="20dp"
+                 android:layout_margin="5dp"
+                 android:layout_marginRight="10dp"
+                 android:layout_gravity="center"
+                 android:elevation="10dp">
+                 <ImageView
+
+                     android:layout_width="100dp"
+                     android:layout_height="100dp"
+                     android:layout_gravity="center"
+                     android:src="@drawable/logo" />
+             </androidx.cardview.widget.CardView>
+         </TableRow>
+
+         <TableRow
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:gravity="center">
+
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="TextView"
+                 android:layout_marginRight="10dp"
+                 android:layout_gravity="center"
+                 android:layout_marginBottom="10dp"
+                 android:layout_marginTop="5dp"/>
+
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="center"
+                 android:layout_marginRight="10dp"
+                 android:text="TextView"
+                 android:layout_marginBottom="10dp"
+                 android:layout_marginTop="5dp"/>
+
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="TextView"
+                 android:layout_marginRight="10dp"
+                 android:layout_gravity="center"
+                 android:layout_marginBottom="10dp"
+                 android:layout_marginTop="5dp"/>
+
+         </TableRow>-->
+
+
+         <TableRow
+             android:layout_width="match_parent"
+             android:layout_height="match_parent" />
+     </TableLayout>
+ </LinearLayout>

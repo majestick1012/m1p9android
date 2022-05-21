@@ -16,10 +16,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -33,6 +35,7 @@ import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,18 +53,17 @@ public class LessonActivity extends YouTubeBaseActivity {
     private Retrofit retrofit;
     private RetrofitLessonInterface retrofitLessonInterface;
     private String base_Url="https://m1p9android-jm.herokuapp.com";
+    private TextView description,title;
+    private ImageView imageView;
 
     List<YouTubePlayerView> LessonVideo = new ArrayList<>();
-
     private int j = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lesson);
         LinearLayout layout = findViewById(R.id.constraintLayoutVideo);
-        lessonController = LessonController.getInstance();
-        //PlayWithButton(findViewById(R.id.bouton));
-        playYoutubeVideo(findViewById(R.id.youtube),lessonController.lessonData.getVideo());
+        init();
         Toast.makeText(this,lessonController.lessonData.getVideo(),Toast.LENGTH_SHORT).show();
     }
 
@@ -134,5 +136,22 @@ public class LessonActivity extends YouTubeBaseActivity {
                playYoutubeVideo(findViewById(R.id.youtube),lessonController.lessonData.getVideo());
            }
        });
+    }
+
+    public void init(){
+        View view = getLayoutInflater().inflate(R.layout.row, null);
+
+        description = view.findViewById(R.id.artist);
+        title = view.findViewById(R.id.title);
+        imageView = view.findViewById(R.id.list_image);
+
+       LinearLayout layoutDescription = findViewById(R.id.layoutDescription);
+       layoutDescription.addView(view);
+        lessonController = LessonController.getInstance();
+        //PlayWithButton(findViewById(R.id.bouton));
+        playYoutubeVideo(findViewById(R.id.youtube),lessonController.lessonData.getVideo());
+        title.setText(lessonController.lessonData.getTitle());
+        description.setText(lessonController.lessonData.getDescription());
+        Picasso.get().load(lessonController.lessonData.getImage()).into(imageView);
     }
 }
