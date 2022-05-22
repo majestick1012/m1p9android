@@ -6,6 +6,14 @@
     "version": "1.0"
   },
   "produces": ["application/json"],
+  "securityDefinitions": {
+    "Authentication Bearer": {
+      "name": "Authorization",
+      "in": "header",
+      "type": "apiKey",
+      "description": "JWT Authorization header"
+    }
+  },
   "paths": {
     "/api/activity/all": {
       "get": {
@@ -14,6 +22,7 @@
         "tags": ["Activity"],
         "description": "Activity",
         "parameters": [],
+        "security": [{ "Authentication Bearer": [] }],
         "responses": {
           "200": {
             "description": "Get success",
@@ -36,6 +45,7 @@
         "operationId": "activityById",
         "tags": ["Activity"],
         "description": "Activity",
+        "security": [{ "Authentication Bearer": [] }],
         "parameters": [
           {
             "name": "id",
@@ -55,29 +65,6 @@
             "description": "No results",
             "schema": {
               "$ref": "#/definitions/Activity"
-            }
-          }
-        }
-      }
-    },
-    "/api/parameter/all": {
-      "get": {
-        "x-swagger-router-controller": "home",
-        "operationId": "param",
-        "tags": ["Parameter"],
-        "description": "Difficulty",
-        "parameters": {},
-        "responses": {
-          "200": {
-            "description": "Get success",
-            "schema": {
-              "$ref": "#/definitions/Parameter"
-            }
-          },
-          "204": {
-            "description": "No results",
-            "schema": {
-              "$ref": "#/definitions/Parameter"
             }
           }
         }
@@ -153,6 +140,7 @@
         "operationId": "logout",
         "tags": ["User"],
         "description": "Logout",
+        "security": [{ "Authentication Bearer": [] }],
         "parameters": [
           {
             "name": "Logout",
@@ -196,31 +184,29 @@
         "message": {
           "type": "string"
         },
-        "data": [
-          {
-            "type": "object",
-            "properties": {
-              "_id": {
-                "type": "string"
-              },
-              "title": {
-                "type": "string"
-              },
-              "description": {
-                "type": "string"
-              },
-              "video": {
-                "type": "string"
-              },
-              "image": {
-                "type": "string"
-              },
-              "idParameter": {
-                "type": "string"
-              }
+        "data": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "video": {
+              "type": "string"
+            },
+            "image": {
+              "type": "string"
+            },
+            "idParameter": {
+              "type": "string"
             }
           }
-        ]
+        }
       }
     },
     "Login": {
@@ -233,30 +219,6 @@
         "password": {
           "type": "string"
         }
-      }
-    },
-    "Parameter": {
-      "type": "object",
-      "properties": {
-        "success": {
-          "type": "boolean"
-        },
-        "message": {
-          "type": "string"
-        },
-        "data": [
-          {
-            "type": "object",
-            "properties": {
-              "_id": {
-                "type": "string"
-              },
-              "difficulty": {
-                "type": "number"
-              }
-            }
-          }
-        ]
       }
     },
     "Signup": {
@@ -299,6 +261,9 @@
               "type": "string"
             },
             "lastname": {
+              "type": "string"
+            },
+            "authToken": {
               "type": "string"
             }
           }
