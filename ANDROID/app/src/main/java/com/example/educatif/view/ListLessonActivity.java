@@ -45,6 +45,7 @@ import com.squareup.picasso.Picasso;
 import java.lang.ref.Reference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -63,6 +64,10 @@ public class ListLessonActivity extends AppCompatActivity {
     SwitchCompat switchCompat;
     int color;
     private LoadingDialog loadingDialog;
+    List<LessonData> searchLesson = new ArrayList<>();
+    Button buttonSearch;
+    TableLayout tableLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,15 +80,28 @@ public class ListLessonActivity extends AppCompatActivity {
         retrofitLessonInterface = retrofit.create(RetrofitLessonInterface.class);
         loadingDialog = new LoadingDialog(ListLessonActivity.this);
         setListLesson();
-        /*getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.principalViewLesson, new SettingsFragment())
-                .commit();*/
+        addSearchLesson();
+
 
         if(lessonController.preference==null){
-            lessonController.preference = new Preferences(Color.parseColor("#2bc48e"),Color.GRAY,500,500);
+            lessonController.preference = new Preferences(Color.parseColor("#2bc48e"),Color.WHITE,
+                    1000,
+                    500,
+                    250,
+                    130,
+                    1000,
+                    500,
+                    1);
         }
-        ListLessonActivity.this.findViewById(R.id.principalViewLesson).setBackgroundColor(lessonController.preference.getBackgroundColor());
+        if(lessonController.preference.getBackgroundColor()==Color.BLACK){
+            String uridark = "@drawable/bg_dark";
+            int imageResourceDark = getResources().getIdentifier(uridark, null, getPackageName());
+            ListLessonActivity.this.findViewById(R.id.principalViewLesson).setBackgroundResource(imageResourceDark);
+
+        }
+        else {
+            ListLessonActivity.this.findViewById(R.id.principalViewLesson).setBackgroundColor(lessonController.preference.getBackgroundColor());
+        }
 
     }
     public void setListLesson()
@@ -94,9 +112,11 @@ public class ListLessonActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Lesson> call, Response<Lesson> response) {
                 lessonController.lesson = response.body();
+
                 //gotolesson(listLessonButton);
                 color = Color.GRAY;
-                constructiconlessonlist(color);
+                //constructiconlessonlist(color);
+                searchlessonlist(lessonController.lesson.getData());
                 loadingDialog.dismissDialog();
                 Log.d("SetLesson","lecon mis a jour");
             }
@@ -158,9 +178,10 @@ public class ListLessonActivity extends AppCompatActivity {
 
     @SuppressLint("ResourceType")
     public void constructiconlessonlist(int color){
-        View view = new View(this);
-        view = getLayoutInflater().inflate(R.layout.theme, null);
-        TableLayout tableLayout = view.findViewById(R.id.table_layout);
+
+       View view = getLayoutInflater().inflate(R.layout.theme, null);
+        tableLayout = view.findViewById(R.id.table_layout);
+        tableLayout.removeAllViews();
         int length = lessonController.lesson.getData().size();
         int k = 0;
         while(1<2){
@@ -168,35 +189,43 @@ public class ListLessonActivity extends AppCompatActivity {
         tableRow.setGravity(Gravity.CENTER);
         TableRow texttableRow = new TableRow(this);
         texttableRow.setGravity(Gravity.CENTER);
-            for(int i=0;i<1;i++){
+            for(int i=0;i<lessonController.preference.getRows();i++){
                 if(k>=length)break;
                 CardView cardView = new CardView(view.getContext());
                 CardView.LayoutParams layoutParamscardView = new CardView.LayoutParams(160,160);
-                layoutParamscardView.height = 160;
-                layoutParamscardView.width = 160;
+                //CardView.LayoutParams layoutParamscardView = new CardView.LayoutParams(60,60);
+
+                layoutParamscardView.height = (int)lessonController.preference.getImageHeight();
+                layoutParamscardView.width = (int)lessonController.preference.getImageWidth();
+                //layoutParamscardView.height = 200;
+                //layoutParamscardView.width = 200;
                 cardView.setRadius(50);
                 ImageView imageView = new ImageView(view.getContext());
                 ViewGroup.LayoutParams imageparams = new ViewGroup.LayoutParams(150,150);
-                imageparams.height=300;
-                imageparams.width=500;
+
+                imageparams.height= (int)lessonController.preference.getImageHeight();
+                imageparams.width=(int)lessonController.preference.getImageWidth();
+
                 Picasso.get().load(lessonController.lesson.getData().get(k).getImage()).into(imageView);
                 imageView.setLayoutParams(imageparams);
                 imageView.setBackgroundColor(Color.parseColor("#2bc48e"));
 
-                //imageView.setBackgroundColor(lessonController.preference.getBackgroundColor());
 
-
-                cardView.addView(imageView,imageparams);
+                cardView.addView(imageView,imageparams.width,imageparams.height);
                 cardView.setLayoutParams(layoutParamscardView);
                 tableRow.addView(new TextView(this),40,40);
-                tableRow.addView(cardView,500,300);
+
+                tableRow.addView(cardView,(int)lessonController.preference.getTextTableWidth(),(int)lessonController.preference.getTextTableHeight());
+
 
                 imageView.setId(k);
 
                 TextView textView = new TextView(view.getContext());
                 ViewGroup.LayoutParams textparams = new ViewGroup.LayoutParams(150,300);
-                textparams.height=150;
-                textparams.width=50;
+
+                textparams.height=(int)lessonController.preference.getTextParamsHeight();
+                textparams.width=(int)lessonController.preference.getTextParamsWidth();
+
                 textView.setGravity(Gravity.CENTER_HORIZONTAL);
                 //textView.setTextColor(color);
                 textView.setTextColor(lessonController.preference.getForegroundColor());
@@ -207,9 +236,7 @@ public class ListLessonActivity extends AppCompatActivity {
 
                 textView.setLayoutParams(textparams);
                 texttableRow.addView(new TextView(this),40,40);
-                texttableRow.addView(textView,150,150);
-
-
+                texttableRow.addView(textView,(int)lessonController.preference.getTextParamsWidth(),(int)lessonController.preference.getTextParamsHeight());
 
                 imageView.setOnClickListener(new View.OnClickListener(){
                     @Override
@@ -228,11 +255,89 @@ public class ListLessonActivity extends AppCompatActivity {
         linearLayout.addView(view);
     }
 
+    @SuppressLint("ResourceType")
+    public void searchlessonlist(List<LessonData> lessonData){
+
+        View view = getLayoutInflater().inflate(R.layout.theme, null);
+        LinearLayout linearLayout = findViewById(R.id.constraintLayoutVideo);
+        linearLayout.removeAllViews();
+        tableLayout = view.findViewById(R.id.table_layout);
+        int length = lessonData.size();
+        int k = 0;
+        while(1<2){
+            TableRow tableRow = new TableRow(this);
+            tableRow.setGravity(Gravity.CENTER);
+            TableRow texttableRow = new TableRow(this);
+            texttableRow.setGravity(Gravity.CENTER);
+            for(int i=0;i<lessonController.preference.getRows();i++){
+                if(k>=length)break;
+                CardView cardView = new CardView(view.getContext());
+                CardView.LayoutParams layoutParamscardView = new CardView.LayoutParams(160,160);
+                //CardView.LayoutParams layoutParamscardView = new CardView.LayoutParams(60,60);
+
+                layoutParamscardView.height = (int)lessonController.preference.getImageHeight();
+                layoutParamscardView.width = (int)lessonController.preference.getImageWidth();
+                //layoutParamscardView.height = 200;
+                //layoutParamscardView.width = 200;
+                cardView.setRadius(50);
+                ImageView imageView = new ImageView(view.getContext());
+                ViewGroup.LayoutParams imageparams = new ViewGroup.LayoutParams(150,150);
+
+                imageparams.height= (int)lessonController.preference.getImageHeight();
+                imageparams.width=(int)lessonController.preference.getImageWidth();
+
+                Picasso.get().load(lessonData.get(k).getImage()).into(imageView);
+                imageView.setLayoutParams(imageparams);
+                imageView.setBackgroundColor(Color.parseColor("#2bc48e"));
+
+
+                cardView.addView(imageView,imageparams.width,imageparams.height);
+                cardView.setLayoutParams(layoutParamscardView);
+                tableRow.addView(new TextView(this),40,40);
+
+                tableRow.addView(cardView,(int)lessonController.preference.getTextTableWidth(),(int)lessonController.preference.getTextTableHeight());
+
+
+                imageView.setId(k);
+
+                TextView textView = new TextView(view.getContext());
+                ViewGroup.LayoutParams textparams = new ViewGroup.LayoutParams(150,300);
+
+                textparams.height=(int)lessonController.preference.getTextParamsHeight();
+                textparams.width=(int)lessonController.preference.getTextParamsWidth();
+
+                textView.setGravity(Gravity.CENTER_HORIZONTAL);
+                //textView.setTextColor(color);
+                textView.setTextColor(lessonController.preference.getForegroundColor());
+
+                textView.setAllCaps(true);
+                textView.setTextSize(20);
+                textView.setText(lessonData.get(k).getTitle());
+
+                textView.setLayoutParams(textparams);
+                texttableRow.addView(new TextView(this),40,40);
+                texttableRow.addView(textView,(int)lessonController.preference.getTextParamsWidth(),(int)lessonController.preference.getTextParamsHeight());
+
+                imageView.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View view){
+                        lessonController.lessonData = lessonData.get(imageView.getId());
+                        Intent intent = new Intent(ListLessonActivity.this, LessonActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                k++;
+            }
+            tableLayout.addView(tableRow);
+            tableLayout.addView(texttableRow);
+            if(k>=length)break;
+        }
+        linearLayout.addView(view);
+    }
+
     public void buttonClicked(View view) {
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.dialogpreferences, null);
-       /* final TextInputEditText etUsername = alertLayout.findViewById(R.id.tiet_username);
-        final TextInputEditText etPassword = alertLayout.findViewById(R.id.tiet_password); */
         switchCompat = alertLayout.findViewById(R.id.switchNight);
 
         String uri = "@drawable/bg_image";  // where myresource (without the extension) is the file
@@ -266,18 +371,11 @@ public class ListLessonActivity extends AppCompatActivity {
         });
 
        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        /* alert.setTitle("Login");*/
         // this is set the view from XML inside AlertDialog
         alert.setView(alertLayout);
         // disallow cancel of AlertDialog on click of back button and outside touch
         alert.setCancelable(false);
         alert.setNegativeButton("Retour", (dialog, which) -> Toast.makeText(getBaseContext(), "Theme Modifier", Toast.LENGTH_SHORT).show());
-
-       /* alert.setPositiveButton("Done", (dialog, which) -> {
-            String user = etUsername.getText().toString();
-            String pass = etPassword.getText().toString();
-            Toast.makeText(getBaseContext(), "Username: " + user + " Password: " + pass, Toast.LENGTH_LONG).show();
-        });*/
         AlertDialog dialog = alert.create();
         dialog.show();
 
@@ -286,6 +384,43 @@ public class ListLessonActivity extends AppCompatActivity {
     public void buttonClickedPreferences(View view) {
         Intent intent = new Intent(ListLessonActivity.this, SettingsActivity.class);
         startActivity(intent);
+    }
+
+    public void addSearchLesson(){
+        try{
+             buttonSearch = findViewById(R.id.buttonSearch);
+             TextInputEditText textInputEditText = findViewById(R.id.textSearch);
+             buttonSearch.setOnClickListener(new Button.OnClickListener(){
+                 @Override
+                 public void onClick(View view) {
+                     if(lessonController.lesson.getData()!=null){
+                         searchLesson = new ArrayList<>();
+                         List<LessonData> lessonData = lessonController.lesson.getData();
+                         for(int i=0;i<lessonData.size();i++){
+                             if(lessonData.get(i).getTitle().toLowerCase(Locale.ROOT).contains(textInputEditText.getText().toString().toLowerCase(Locale.ROOT))){
+                                 searchLesson.add(lessonData.get(i));
+                                 //Log.d("jererererer",searchLesson.get(i).getTitle());
+                             }
+                         }
+                         Log.d("jererererer",""+searchLesson.size());
+                     }
+
+                     if(searchLesson!=null){
+                         Toast.makeText(ListLessonActivity.this,searchLesson.get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                     }
+                     else {
+                         searchLesson = lessonController.lesson.getData();
+                     }
+                     searchlessonlist(searchLesson);
+                 }
+             });
+
+        }
+        catch (Exception ex){
+            Toast.makeText(this,ex.getMessage(),Toast.LENGTH_SHORT);
+            Log.d("la message est ",ex.getMessage());
+        }
+
     }
 
 }

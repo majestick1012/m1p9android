@@ -9,7 +9,7 @@
         />
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="Taille de Police">
+    <PreferenceCategory app:title="Disposition Affichage">
     <SwitchPreference
         app:key="@string/sp_policy_small"
         app:title="@string/title_policy_small"
@@ -20,14 +20,14 @@
     <SwitchPreference
         app:key="@string/sp_policy_normal"
         app:title="@string/title_policy_normal"
-        app:defaultValue="true"
+        app:defaultValue="false"
         app:icon="@drawable/logo"
         />
 
     <SwitchPreference
         app:key="@string/sp_policy_big"
         app:title="@string/title_policy_big"
-        app:defaultValue="false"
+        app:defaultValue="true"
         app:icon="@drawable/logo"
         />
     </PreferenceCategory>

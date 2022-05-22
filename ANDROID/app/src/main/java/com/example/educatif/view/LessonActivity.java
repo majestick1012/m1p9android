@@ -5,6 +5,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -144,6 +145,7 @@ public class LessonActivity extends YouTubeBaseActivity {
         description = view.findViewById(R.id.artist);
         title = view.findViewById(R.id.title);
         imageView = view.findViewById(R.id.list_image);
+        RelativeLayout relativeLayout = view.findViewById(R.id.relativelayoutdesc);
 
        LinearLayout layoutDescription = findViewById(R.id.layoutDescription);
        layoutDescription.addView(view);
@@ -153,5 +155,15 @@ public class LessonActivity extends YouTubeBaseActivity {
         title.setText(lessonController.lessonData.getTitle());
         description.setText(lessonController.lessonData.getDescription());
         Picasso.get().load(lessonController.lessonData.getImage()).into(imageView);
+
+        if(lessonController.preference != null){
+            if(lessonController.preference.getBackgroundColor()==Color.BLACK){
+                String uridark = "@drawable/bg_dark_2";
+                int imageResourceDark = getResources().getIdentifier(uridark, null, getPackageName());
+                LessonActivity.this.findViewById(R.id.lessonvideoprincipal).setBackgroundResource(imageResourceDark);
+                relativeLayout.setBackgroundColor(lessonController.preference.getBackgroundColor());
+            }
+        }
+
     }
 }

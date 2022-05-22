@@ -15,6 +15,7 @@ import androidx.preference.SwitchPreference;
 import com.example.educatif.controller.LessonController;
 
 import com.example.educatif.R;
+import com.example.educatif.model.Preferences;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -95,6 +96,7 @@ public class SettingsActivity extends AppCompatActivity {
                     if(policySizeSmall.isChecked()){
                         Toast.makeText(mActivity,"Small Unchecked",Toast.LENGTH_SHORT).show();
 
+
                         // Checked the switch programmatically
                         policySizeSmall.setChecked(false);
                     }else {
@@ -104,6 +106,16 @@ public class SettingsActivity extends AppCompatActivity {
                         policySizeSmall.setChecked(true);
                         policySizeNormal.setChecked(false);
                         policySizeBig.setChecked(false);
+
+                        lessonController.preference = new Preferences(Color.parseColor("#2bc48e"),lessonController.preference.getBackgroundColor(),
+                                200,
+                                200,
+                                250,
+                                250,
+                                200,
+                                200,
+                                4);
+
                     }
                     return false;
                 }
@@ -124,6 +136,15 @@ public class SettingsActivity extends AppCompatActivity {
                         policySizeNormal.setChecked(true);
                         policySizeSmall.setChecked(false);
                         policySizeBig.setChecked(false);
+
+                        lessonController.preference = new Preferences(Color.parseColor("#2bc48e"),lessonController.preference.getBackgroundColor(),
+                                300,
+                                300,
+                                250,
+                                200,
+                                300,
+                                300,
+                                3);
                     }
                     return false;
                 }
@@ -144,6 +165,15 @@ public class SettingsActivity extends AppCompatActivity {
                         policySizeBig.setChecked(true);
                         policySizeSmall.setChecked(false);
                         policySizeNormal.setChecked(false);
+
+                        lessonController.preference = new Preferences(Color.parseColor("#2bc48e"),lessonController.preference.getBackgroundColor(),
+                                1000,
+                                500,
+                                250,
+                                130,
+                                1000,
+                                500,
+                                1);
                     }
                     return false;
                 }
