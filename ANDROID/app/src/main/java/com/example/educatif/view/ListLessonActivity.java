@@ -406,7 +406,7 @@ public class ListLessonActivity extends AppCompatActivity {
                      }
 
                      if(searchLesson!=null){
-                         Toast.makeText(ListLessonActivity.this,searchLesson.get(0).getTitle(),Toast.LENGTH_SHORT).show();
+                         Toast.makeText(ListLessonActivity.this,searchLesson.size()+" result",Toast.LENGTH_SHORT).show();
                      }
                      else {
                          searchLesson = lessonController.lesson.getData();
