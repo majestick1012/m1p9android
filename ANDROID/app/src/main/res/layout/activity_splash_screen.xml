@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EFE26E"
+    android:background="@color/green"
     tools:context=".view.SplashScreenActivity">
 
     <LinearLayout
@@ -16,26 +16,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical"></LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
             android:gravity="center|center_horizontal">
 
             <ImageView
                 android:id="@+id/imageView3"
-                android:layout_width="200dp"
+                android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/logo" />
+                android:contentDescription="@string/logo"
+                app:srcCompat="@drawable/logo"
+                tools:ignore="ImageContrastCheck" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"></LinearLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

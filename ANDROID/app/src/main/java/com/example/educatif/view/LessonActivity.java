@@ -1,6 +1,8 @@
 package com.example.educatif.view;
 
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -40,8 +42,19 @@ public class LessonActivity extends YouTubeBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lesson);
+        redirectIfNotAuthenticated();
         init();
-        Toast.makeText(this,lessonController.lessonData.getVideo(),Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this,lessonController.lessonData.getVideo(),Toast.LENGTH_SHORT).show();
+    }
+
+    private void redirectIfNotAuthenticated(){
+        SharedPreferences sp1 = getSharedPreferences("Login", MODE_PRIVATE);
+        String token = sp1.getString("token", null);
+        String userId = sp1.getString("id", null);
+        if(token == null || token.isEmpty() || userId == null || userId.isEmpty()){
+            Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+            startActivity(intent);
+        }
     }
 
     public void playVideo(VideoView video){
@@ -71,7 +84,7 @@ public class LessonActivity extends YouTubeBaseActivity {
                 public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
                     //load video
                     youTubePlayer.loadVideo(id);
-                    //startvideo
+                    //start video
                     youTubePlayer.play();
                 }
                 @Override

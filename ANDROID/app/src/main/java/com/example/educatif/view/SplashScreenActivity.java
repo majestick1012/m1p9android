@@ -58,19 +58,18 @@ public class SplashScreenActivity extends AppCompatActivity {
     public void setListLesson()
     {
         lessonController = LessonController.getInstance();
-        Call<Lesson> call = retrofitLessonInterface.GetAllYoutube();
+        String bearerToken = "Bearer ";
+        Call<Lesson> call = retrofitLessonInterface.GetAllYoutube(bearerToken);
         call.enqueue(new Callback<Lesson>() {
             @Override
             public void onResponse(Call<Lesson> call, Response<Lesson> response) {
                 lessonController.lesson = response.body();
-                Log.d("SetLesson","lecon mis a jour");
-                Toast.makeText(SplashScreenActivity.this,"Succès",Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(SplashScreenActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
             @Override
             public void onFailure(Call<Lesson> call, Throwable t) {
-                Toast.makeText(SplashScreenActivity.this,t.getMessage(),Toast.LENGTH_LONG).show();
+                //Toast.makeText(SplashScreenActivity.this,"Impossible de se connecter a internet",Toast.LENGTH_LONG).show();
             }
         });
     }

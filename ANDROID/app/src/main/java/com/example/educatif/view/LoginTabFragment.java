@@ -1,6 +1,9 @@
 package com.example.educatif.view;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,30 +43,13 @@ public class LoginTabFragment extends Fragment {
         name = root.findViewById(R.id.email);
         password = root.findViewById(R.id.pass);
         loadingDialog = new LoadingDialog(getActivity());
-        //verifyApiLogin();
         VerifyLogin();
         retrofit = new Retrofit.Builder().baseUrl(base_Url).addConverterFactory(GsonConverterFactory.create()).build();
         retrofitInterface = retrofit.create(RetrofitInterface.class);
-
-
         return root;
     }
 
 
-    private void verifyApiLogin(){
-        loginController = LoginController.getInstanceLogin();
-        ((Button)root.findViewById(R.id.button)).setOnClickListener(new Button.OnClickListener(){
-            public void onClick(View v) {
-                String nameText = name.getText().toString();
-                String passwordText = password.getText().toString();
-                Intent intent = loginController.verifyLogin(nameText,passwordText,root.getContext());
-               //Intent intent = new Intent(root.getContext(), LessonActivity.class);
-                if(intent!=null){
-                    startActivity(intent);
-                }
-            }
-        });
-    }
 
     private void VerifyLogin() {
 
@@ -74,7 +60,6 @@ public class LoginTabFragment extends Fragment {
                 String passwordText = password.getText().toString();
                 HashMap<String,String> map = new HashMap<>();
 
-                //recuperation des valeurs du login a verifier
                 map.put("email",nameText);
                 map.put("password",passwordText);
 
@@ -86,27 +71,31 @@ public class LoginTabFragment extends Fragment {
                     public void onResponse(Call<Login> call, Response<Login> response) {
                         Login login = response.body();
                         if(login!=null && login.getSuccess()) {
-                            Toast.makeText(root.getContext(),"Connexion réussie !",Toast.LENGTH_SHORT).show();
-                            //Intent intent = new Intent(root.getContext(), LessonActivity.class);
+                            Toast.makeText(root.getContext(),R.string.login_success,Toast.LENGTH_SHORT).show();
+                            SharedPreferences sp= getActivity().getSharedPreferences("Login", MODE_PRIVATE);
+                            SharedPreferences.Editor Ed=sp.edit();
+                            Ed.putString("id", login.getData().get_id() );
+                            Ed.putString("email", login.getData().getEmail() );
+                            Ed.putString("firstname", login.getData().getFirstname() );
+                            Ed.putString("token", login.getData().getAuthToken());
+                            Ed.commit();
+
                             Intent intent = new Intent(root.getContext(), ListLessonActivity.class);
-                            loadingDialog.dismissDialog();
                             startActivity(intent);
+                            loadingDialog.dismissDialog();
                         }
                         else{
                             loadingDialog.dismissDialog();
-                            Toast.makeText(root.getContext(),"Echec de l'authentification",Toast.LENGTH_LONG).show();
+                            Toast.makeText(root.getContext(),R.string.login_failed,Toast.LENGTH_LONG).show();
                         }
                     }
                     @Override
                     public void onFailure(Call<Login> call, Throwable t) {
-                        //erreur connexion ou autre exception test 2
+                        // Error
                         loadingDialog.startLoadingDialog();
                         Toast.makeText(root.getContext(),t.getMessage(),Toast.LENGTH_LONG).show();
-
                     }
                 });
-
-
             }
         });
     }

@@ -2,6 +2,8 @@ package com.example.educatif.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -19,7 +21,6 @@ import com.example.educatif.model.Preferences;
 
 public class SettingsActivity extends AppCompatActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,12 +34,19 @@ public class SettingsActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle(R.string.settings);
         }
+        redirectIfNotAuthenticated();
+    }
 
-
-
-
-
+    private void redirectIfNotAuthenticated(){
+        SharedPreferences sp1 = getSharedPreferences("Login", MODE_PRIVATE);
+        String token = sp1.getString("token", null);
+        String userId = sp1.getString("id", null);
+        if(token == null || token.isEmpty() || userId == null || userId.isEmpty()){
+            Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+            startActivity(intent);
+        }
     }
 
 
@@ -72,16 +80,10 @@ public class SettingsActivity extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     if(Mode.isChecked()){
-                        Toast.makeText(mActivity,"Unchecked",Toast.LENGTH_SHORT).show();
-
-                        // Checked the switch programmatically
                         Mode.setChecked(false);
                         lessonController.preference.setBackgroundColor(Color.WHITE);
                         lessonController.preference.setForegroundColor(Color.BLACK);
                     }else {
-                        Toast.makeText(mActivity,"Checked",Toast.LENGTH_SHORT).show();
-
-                        // Unchecked the switch programmatically
                         Mode.setChecked(true);
                         lessonController.preference.setBackgroundColor(Color.BLACK);
                         lessonController.preference.setForegroundColor(Color.WHITE);
@@ -94,15 +96,8 @@ public class SettingsActivity extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     if(policySizeSmall.isChecked()){
-                        Toast.makeText(mActivity,"Small Unchecked",Toast.LENGTH_SHORT).show();
-
-
-                        // Checked the switch programmatically
                         policySizeSmall.setChecked(false);
                     }else {
-                        Toast.makeText(mActivity,"Small Checked",Toast.LENGTH_SHORT).show();
-
-                        // Unchecked the switch programmatically
                         policySizeSmall.setChecked(true);
                         policySizeNormal.setChecked(false);
                         policySizeBig.setChecked(false);
@@ -125,14 +120,8 @@ public class SettingsActivity extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     if(policySizeNormal.isChecked()){
-                        Toast.makeText(mActivity,"Normal Unchecked",Toast.LENGTH_SHORT).show();
-
-                        // Checked the switch programmatically
                         policySizeNormal.setChecked(false);
                     }else {
-                        Toast.makeText(mActivity,"Normal Checked",Toast.LENGTH_SHORT).show();
-
-                        // Unchecked the switch programmatically
                         policySizeNormal.setChecked(true);
                         policySizeSmall.setChecked(false);
                         policySizeBig.setChecked(false);
@@ -154,14 +143,8 @@ public class SettingsActivity extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     if(policySizeBig.isChecked()){
-                        Toast.makeText(mActivity,"Big Unchecked",Toast.LENGTH_SHORT).show();
-
-                        // Checked the switch programmatically
                         policySizeBig.setChecked(false);
                     }else {
-                        Toast.makeText(mActivity,"Big Checked",Toast.LENGTH_SHORT).show();
-
-                        // Unchecked the switch programmatically
                         policySizeBig.setChecked(true);
                         policySizeSmall.setChecked(false);
                         policySizeNormal.setChecked(false);

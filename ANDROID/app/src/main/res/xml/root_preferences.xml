@@ -1,6 +1,6 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="Preferences Affichage">
+    <PreferenceCategory app:title="Apparence">
     <SwitchPreference
         app:key="@string/sp_mode"
         app:title="@string/titlecolor"
@@ -9,7 +9,7 @@
         />
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="Disposition Affichage">
+    <PreferenceCategory app:title="Taille de la liste">
     <SwitchPreference
         app:key="@string/sp_policy_small"
         app:title="@string/title_policy_small"

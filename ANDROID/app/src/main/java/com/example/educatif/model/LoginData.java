@@ -5,6 +5,7 @@ public class LoginData {
     private String email;
     private String firstname;
     private String lastname;
+    private String authToken;
 
     public LoginData(){
 
@@ -24,5 +25,9 @@ public class LoginData {
 
     public String getLastname() {
         return lastname;
+    }
+
+    public String getAuthToken(){
+        return authToken;
     }
 }

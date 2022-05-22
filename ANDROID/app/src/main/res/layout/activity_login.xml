@@ -5,7 +5,6 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/green"
     tools:context=".view.LoginActivity">
 
 
@@ -13,7 +12,6 @@
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/green"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent=".78"
@@ -27,14 +25,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:background="@color/green"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0"
-            app:tabIndicatorColor="@color/white"
-            app:tabTextColor="@color/white" />
+            app:tabIndicatorColor="@color/black"
+            app:tabTextColor="@color/black"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/view_pager"
@@ -45,7 +43,8 @@
             app:layout_constraintHeight_percent=".85"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tab_layout"
-            app:layout_constraintVertical_bias="0" />
+            app:layout_constraintVertical_bias="0"
+            tools:ignore="SpeakableTextPresentCheck" />
 
 
         <!-- <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -95,6 +94,7 @@
         android:id="@+id/imageView3"
         android:layout_width="208dp"
         android:layout_height="86dp"
+        android:contentDescription="@string/logo"
         android:src="@drawable/logo"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -108,7 +108,7 @@
         android:layout_height="wrap_content"
         android:text="Apprendre - Bachoter - Comprendre"
         android:textAllCaps="true"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="16sp"
 
         android:textStyle="bold"
