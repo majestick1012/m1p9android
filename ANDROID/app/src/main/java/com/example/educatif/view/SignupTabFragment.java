@@ -113,7 +113,9 @@ public class SignupTabFragment extends Fragment {
                         Login login = response.body();
                         if(login!=null && login.getSuccess()) {
                             loadingDialog.dismissDialog();
-                            Toast.makeText(root.getContext(),login.getMessage(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(root.getContext(),"inscription fait",Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(root.getContext(),LoginActivity.class);
+                            startActivity(intent);
                         }
                         else{
                             loadingDialog.dismissDialog();
