@@ -1,10 +1,11 @@
 const express = require("express");
 const Activity = require("../models/activity.model");
+const guard = require("../middlewares/guard");
 
 const router = express.Router();
 
 // GET ALL
-router.get("/all", (req, res, next) => {
+router.get("/all", guard, (req, res, next) => {
   Activity.find({})
     .then((result) => {
       if (!result) {
@@ -37,7 +38,7 @@ router.get("/all", (req, res, next) => {
 });
 
 // GET BY ID
-router.get("/:id", (req, res, next) => {
+router.get("/:id", guard, (req, res, next) => {
   console.log(req.params.id);
   Activity.findById(req.params.id)
     .then((result) => {

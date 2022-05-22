@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user.model");
+const guard = require("../middlewares/guard");
 
 const router = express.Router();
 
@@ -51,7 +52,6 @@ router.post("/login", (req, res, next) => {
         .then((result) => {
           if (result) {
             return res.status(200).json({
-              expiresIn: 28800,
               success: true,
               message: "Auth success!",
               data: {
@@ -59,6 +59,7 @@ router.post("/login", (req, res, next) => {
                 email: fetchedUser.email,
                 firstname: fetchedUser.firstname,
                 lastname: fetchedUser.lastname,
+                authToken: fetchedUser.authToken
               },
             });
           } else {
@@ -81,23 +82,11 @@ router.post("/login", (req, res, next) => {
             message: err,
           });
         });
-    })
-    .catch((err) => {
-      if(err.name === 'ValidationError'){
-        return res.status(400).json({
-          success: false,
-          message: err.message
-        });
-      }
-      return res.status(500).json({
-        success: false,
-        message: err,
-      });
     });
 });
 
 // LOGOUT
-router.post("/logout", (req, res, next) => {
+router.post("/logout", guard, (req, res, next) => {
   User.updateOne(
     { _id: req.body.id },
     {
@@ -170,7 +159,7 @@ router.post("/signup", (req, res, next) => {
                 _id: result._id,
                 email: result.email,
                 firstname: result.firstname,
-                lastname: result.lastname,
+                lastname: result.lastname
               },
             });
           })
