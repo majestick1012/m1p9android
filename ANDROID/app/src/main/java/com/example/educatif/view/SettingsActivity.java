@@ -107,7 +107,7 @@ public class SettingsActivity extends AppCompatActivity {
                         policySizeNormal.setChecked(false);
                         policySizeBig.setChecked(false);
 
-                        lessonController.preference = new Preferences(Color.parseColor("#2bc48e"),lessonController.preference.getBackgroundColor(),
+                        lessonController.preference = new Preferences(lessonController.preference.getForegroundColor(),lessonController.preference.getBackgroundColor(),
                                 200,
                                 200,
                                 250,
@@ -137,7 +137,7 @@ public class SettingsActivity extends AppCompatActivity {
                         policySizeSmall.setChecked(false);
                         policySizeBig.setChecked(false);
 
-                        lessonController.preference = new Preferences(Color.parseColor("#2bc48e"),lessonController.preference.getBackgroundColor(),
+                        lessonController.preference = new Preferences(lessonController.preference.getForegroundColor(),lessonController.preference.getBackgroundColor(),
                                 300,
                                 300,
                                 250,
@@ -166,7 +166,7 @@ public class SettingsActivity extends AppCompatActivity {
                         policySizeSmall.setChecked(false);
                         policySizeNormal.setChecked(false);
 
-                        lessonController.preference = new Preferences(Color.parseColor("#2bc48e"),lessonController.preference.getBackgroundColor(),
+                        lessonController.preference = new Preferences(lessonController.preference.getForegroundColor(),lessonController.preference.getBackgroundColor(),
                                 1000,
                                 500,
                                 250,

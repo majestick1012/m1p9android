@@ -56,7 +56,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ListLessonActivity extends AppCompatActivity {
 
     LinearLayout linearLayout;
-    List<Button> listLessonButton = new ArrayList<>();
     LessonController lessonController;
     private Retrofit retrofit;
     private RetrofitLessonInterface retrofitLessonInterface;
@@ -84,7 +83,16 @@ public class ListLessonActivity extends AppCompatActivity {
 
 
         if(lessonController.preference==null){
-            lessonController.preference = new Preferences(Color.parseColor("#2bc48e"),Color.WHITE,
+           /* lessonController.preference = new Preferences(Color.parseColor("#2bc48e"),Color.WHITE,
+                    1000,
+                    500,
+                    250,
+                    130,
+                    1000,
+                    500,
+                    1);*/
+
+            lessonController.preference = new Preferences(Color.BLACK,Color.WHITE,
                     1000,
                     500,
                     250,
@@ -106,27 +114,35 @@ public class ListLessonActivity extends AppCompatActivity {
     }
     public void setListLesson()
     {
-        Call<Lesson> call = retrofitLessonInterface.GetAllYoutube();
-        loadingDialog.startLoadingDialog();
-        call.enqueue(new Callback<Lesson>() {
-            @Override
-            public void onResponse(Call<Lesson> call, Response<Lesson> response) {
-                lessonController.lesson = response.body();
+        if(lessonController.lesson==null){
+            Call<Lesson> call = retrofitLessonInterface.GetAllYoutube();
+            loadingDialog.startLoadingDialog();
+            call.enqueue(new Callback<Lesson>() {
+                @Override
+                public void onResponse(Call<Lesson> call, Response<Lesson> response) {
+                    lessonController.lesson = response.body();
 
-                //gotolesson(listLessonButton);
-                color = Color.GRAY;
-                //constructiconlessonlist(color);
-                searchlessonlist(lessonController.lesson.getData());
-                loadingDialog.dismissDialog();
-                Log.d("SetLesson","lecon mis a jour");
-            }
-            @Override
-            public void onFailure(Call<Lesson> call, Throwable t) {
-                //erreur connexion ou autre exception test 2
-                loadingDialog.dismissDialog();
-                Toast.makeText(ListLessonActivity.this,t.getMessage(),Toast.LENGTH_LONG).show();
-            }
-        });
+                    //gotolesson(listLessonButton);
+                    //color = Color.GRAY;
+                    //constructiconlessonlist(color);
+                    searchlessonlist(lessonController.lesson.getData());
+                    loadingDialog.dismissDialog();
+                    Log.d("SetLesson","lecon mis a jour");
+                }
+                @Override
+                public void onFailure(Call<Lesson> call, Throwable t) {
+                    //erreur connexion ou autre exception test 2
+                    loadingDialog.dismissDialog();
+                    Toast.makeText(ListLessonActivity.this,t.getMessage(),Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+        else {
+            loadingDialog.startLoadingDialog();
+            loadingDialog.dismissDialog();
+            searchlessonlist(lessonController.lesson.getData());
+            loadingDialog.dismissDialog();
+        }
     }
 
    public void gotolesson(List<Button>buttons){
@@ -309,6 +325,7 @@ public class ListLessonActivity extends AppCompatActivity {
                 textView.setGravity(Gravity.CENTER_HORIZONTAL);
                 //textView.setTextColor(color);
                 textView.setTextColor(lessonController.preference.getForegroundColor());
+
 
                 textView.setAllCaps(true);
                 textView.setTextSize(20);

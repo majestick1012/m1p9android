@@ -38,10 +38,10 @@
             android:name=".view.LessonActivity"
             android:exported="false" />
         <activity
-            android:name=".view.SplashScreenActivity"
+            android:name=".view.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".view.LoginActivity"
+            android:name=".view.SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
