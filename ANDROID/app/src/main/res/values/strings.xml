@@ -26,4 +26,36 @@
     <string name="confirmation_mot_de_passe">Confirmation mot de passe</string>
     <string name="nom">Nom</string>
     <string name="chargement">Chargement...</string>
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="Mode">ModeParam</string>
+
+
+    <!-- preference -->
+    <string name="sp_mode">mode affichage</string>
+    <string name="titlecolor">Mode Sombre</string>
+
+    <string name="sp_policy_normal">mode Moyen</string>
+    <string name="title_policy_normal">Moyen</string>
+
+    <string name="sp_policy_small">mode Petit</string>
+    <string name="title_policy_small">Petit</string>
+
+    <string name="sp_policy_big">mode Grand</string>
+    <string name="title_policy_big">Grand</string>
+
+
 </resources>

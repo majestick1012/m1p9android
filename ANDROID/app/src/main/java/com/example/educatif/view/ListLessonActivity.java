@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
+import androidx.preference.Preference;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -37,9 +38,11 @@ import com.example.educatif.Utils.RetrofitLessonInterface;
 import com.example.educatif.controller.LessonController;
 import com.example.educatif.model.Lesson;
 import com.example.educatif.model.LessonData;
+import com.example.educatif.model.Preferences;
 import com.google.android.material.textfield.TextInputEditText;
 import com.squareup.picasso.Picasso;
 
+import java.lang.ref.Reference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,6 +66,7 @@ public class ListLessonActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_lesson);
         linearLayout = findViewById(R.id.constraintLayoutVideo);
@@ -71,6 +75,15 @@ public class ListLessonActivity extends AppCompatActivity {
         retrofitLessonInterface = retrofit.create(RetrofitLessonInterface.class);
         loadingDialog = new LoadingDialog(ListLessonActivity.this);
         setListLesson();
+        /*getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.principalViewLesson, new SettingsFragment())
+                .commit();*/
+
+        if(lessonController.preference==null){
+            lessonController.preference = new Preferences(Color.parseColor("#2bc48e"),Color.GRAY,500,500);
+        }
+        ListLessonActivity.this.findViewById(R.id.principalViewLesson).setBackgroundColor(lessonController.preference.getBackgroundColor());
 
     }
     public void setListLesson()
@@ -169,6 +182,10 @@ public class ListLessonActivity extends AppCompatActivity {
                 Picasso.get().load(lessonController.lesson.getData().get(k).getImage()).into(imageView);
                 imageView.setLayoutParams(imageparams);
                 imageView.setBackgroundColor(Color.parseColor("#2bc48e"));
+
+                //imageView.setBackgroundColor(lessonController.preference.getBackgroundColor());
+
+
                 cardView.addView(imageView,imageparams);
                 cardView.setLayoutParams(layoutParamscardView);
                 tableRow.addView(new TextView(this),40,40);
@@ -181,10 +198,13 @@ public class ListLessonActivity extends AppCompatActivity {
                 textparams.height=150;
                 textparams.width=50;
                 textView.setGravity(Gravity.CENTER_HORIZONTAL);
-                textView.setTextColor(color);
+                //textView.setTextColor(color);
+                textView.setTextColor(lessonController.preference.getForegroundColor());
+
                 textView.setAllCaps(true);
                 textView.setTextSize(20);
                 textView.setText(lessonController.lesson.getData().get(k).getTitle());
+
                 textView.setLayoutParams(textparams);
                 texttableRow.addView(new TextView(this),40,40);
                 texttableRow.addView(textView,150,150);
@@ -222,13 +242,10 @@ public class ListLessonActivity extends AppCompatActivity {
         int imageResourceDark = getResources().getIdentifier(uridark, null, getPackageName());
         switchCompat.setChecked(true);
         if (switchCompat.isChecked()){
-            color = Color.WHITE;
-
             ListLessonActivity.this.findViewById(R.id.principalViewLesson).setBackgroundResource(imageResourceDark);
             //constructiconlessonlist(Color.WHITE);
         }
         else {
-            color = Color.BLUE;
             ListLessonActivity.this.findViewById(R.id.principalViewLesson).setBackgroundResource(imageResource);
             //constructiconlessonlist(Color.BLACK);
         }
@@ -238,15 +255,12 @@ public class ListLessonActivity extends AppCompatActivity {
                 // do something, the isChecked will be
                 // true if the switch is in the On position
                 if (switchCompat.isChecked()){
-                    color = Color.WHITE;
-
                     ListLessonActivity.this.findViewById(R.id.principalViewLesson).setBackgroundResource(imageResourceDark);
                     //constructiconlessonlist(Color.WHITE);
                 }
                 else {
                     color = Color.BLUE;
                     ListLessonActivity.this.findViewById(R.id.principalViewLesson).setBackgroundResource(imageResource);
-                    //constructiconlessonlist(Color.BLACK);
                 }
             }
         });
@@ -267,6 +281,11 @@ public class ListLessonActivity extends AppCompatActivity {
         AlertDialog dialog = alert.create();
         dialog.show();
 
+    }
+
+    public void buttonClickedPreferences(View view) {
+        Intent intent = new Intent(ListLessonActivity.this, SettingsActivity.class);
+        startActivity(intent);
     }
 
 }
