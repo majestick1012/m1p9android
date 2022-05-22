@@ -1,9 +1,9 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "M1P9 Android",
-    "description": "",
-    "version": "1.0"
+    "title": "ABC",
+    "description": "List of all APIs published on our server https://m1p9android-jm.herokuapp.com/",
+    "version": "1.0.0"
   },
   "produces": ["application/json"],
   "securityDefinitions": {
