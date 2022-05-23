@@ -75,4 +75,5 @@
     <string name="blank">_</string>
     <string name="internet_error">Impossible de se connecter à internet</string>
     <string name="no_internet">Aucune connexion Internet.</string>
+    <string name="session_expired">Session expirée.</string>
 </resources>

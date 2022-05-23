@@ -5,21 +5,20 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class Lesson {
- private String success;
+ private boolean success;
  private String message;
  private List<LessonData> data;
 
  public Lesson(){
 
  }
-public Lesson(String success,String message,List<LessonData>data){
+public Lesson(boolean success,String message,List<LessonData>data){
     this.success = success;
     this.message = message;
     this.data = data;
 }
 
-    @SerializedName("success")
-    public String getSuccess() {
+    public boolean getSuccess() {
         return success;
     }
 

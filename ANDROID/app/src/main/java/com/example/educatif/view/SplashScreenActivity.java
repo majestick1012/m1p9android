@@ -3,6 +3,7 @@ package com.example.educatif.view;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +26,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     private Retrofit retrofit;
     private RetrofitLessonInterface retrofitLessonInterface;
+    private SharedPreferences sharedPreferences;
     LessonController lessonController;
 
     @Override
@@ -40,6 +42,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         retrofit = new Retrofit.Builder().baseUrl(getString(R.string.urlAPI)).addConverterFactory(GsonConverterFactory.create()).build();
         retrofitLessonInterface = retrofit.create(RetrofitLessonInterface.class);
+        sharedPreferences = getSharedPreferences("Login", MODE_PRIVATE);
         setListLesson();
 
         lessonController.preference = new Preferences(Color.BLACK,Color.WHITE,
@@ -58,13 +61,26 @@ public class SplashScreenActivity extends AppCompatActivity {
     {
         lessonController = LessonController.getInstance();
         String bearerToken = "Bearer ";
+        String token = sharedPreferences.getString("token", null);
+        if(token != null && !token.isEmpty()){
+            bearerToken += token;
+        }
         Call<Lesson> call = retrofitLessonInterface.GetAllYoutube(bearerToken);
         call.enqueue(new Callback<Lesson>() {
             @Override
             public void onResponse(Call<Lesson> call, Response<Lesson> response) {
-                lessonController.lesson = response.body();
-                Intent intent = new Intent(SplashScreenActivity.this, LoginActivity.class);
-                startActivity(intent);
+                Lesson result = response.body();
+                lessonController.lesson = result;
+                if(result != null && result.getSuccess()){
+                    Intent intent = new Intent(SplashScreenActivity.this, ListLessonActivity.class);
+                    startActivity(intent);
+                } else {
+                    SharedPreferences.Editor Ed = sharedPreferences.edit();
+                    Ed.clear();
+                    Ed.commit();
+                    Intent intent = new Intent(SplashScreenActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
             }
             @Override
             public void onFailure(Call<Lesson> call, Throwable t) {

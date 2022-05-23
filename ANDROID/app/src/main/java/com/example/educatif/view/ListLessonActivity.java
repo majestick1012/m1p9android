@@ -163,30 +163,32 @@ public class ListLessonActivity extends AppCompatActivity {
         Call<Login> call = retrofitInterface.executeLogout(bearerToken, map);
         loadingDialog.startLoadingDialog();
 
+        SharedPreferences.Editor Ed = sharedPreferences.edit();
+        Ed.clear();
+        Ed.commit();
+
         call.enqueue(new Callback<Login>() {
             @Override
             public void onResponse(Call<Login> call, Response<Login> response) {
                 Login login = response.body();
                 if(login!=null && login.getSuccess()) {
-                    SharedPreferences.Editor Ed = sharedPreferences.edit();
-                    Ed.clear();
-                    Ed.commit();
-
                     Intent intent = new Intent(getBaseContext(), LoginActivity.class);
                     startActivity(intent);
                     loadingDialog.dismissDialog();
                     Toast.makeText(getBaseContext(),R.string.logout_success,Toast.LENGTH_SHORT).show();
                 }
                 else{
+                    Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+                    startActivity(intent);
                     loadingDialog.dismissDialog();
-                    Toast.makeText(getBaseContext(),R.string.logout_failed,Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(),R.string.session_expired,Toast.LENGTH_LONG).show();
                 }
             }
             @Override
             public void onFailure(Call<Login> call, Throwable t) {
                 // Error
                 loadingDialog.dismissDialog();
-                Toast.makeText(getBaseContext(),R.string.logout_failed,Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(),R.string.no_internet,Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -204,16 +206,24 @@ public class ListLessonActivity extends AppCompatActivity {
             call.enqueue(new Callback<Lesson>() {
                 @Override
                 public void onResponse(Call<Lesson> call, Response<Lesson> response) {
-                    lessonController.lesson = response.body();
+                    Lesson result = response.body();
+                    lessonController.lesson = result;
                     searchlessonlist(lessonController.lesson.getData());
+                    if(result != null && !result.getSuccess()){
+                        SharedPreferences.Editor Ed = sharedPreferences.edit();
+                        Ed.clear();
+                        Ed.commit();
+                        Intent intent = new Intent(ListLessonActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        Toast.makeText(getBaseContext(),R.string.session_expired,Toast.LENGTH_LONG).show();
+                    }
                     loadingDialog.dismissDialog();
-                    Log.d("SetLesson","Lesson updated");
                 }
                 @Override
                 public void onFailure(Call<Lesson> call, Throwable t) {
                     // Error
                     loadingDialog.dismissDialog();
-                    Toast.makeText(ListLessonActivity.this,t.getMessage(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(ListLessonActivity.this,R.string.no_internet,Toast.LENGTH_LONG).show();
                 }
             });
         }
