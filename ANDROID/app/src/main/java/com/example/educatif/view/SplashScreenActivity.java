@@ -68,7 +68,9 @@ public class SplashScreenActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<Lesson> call, Throwable t) {
-                //Toast.makeText(SplashScreenActivity.this,"Impossible de se connecter a internet",Toast.LENGTH_LONG).show();
+                Toast.makeText(SplashScreenActivity.this,R.string.internet_error,Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(SplashScreenActivity.this, LoginActivity.class);
+                startActivity(intent);
             }
         });
     }

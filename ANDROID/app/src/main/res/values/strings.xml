@@ -73,4 +73,6 @@
     <string name="header_exercise">Compléter par la bonne réponse</string>
     <string name="a">A</string>
     <string name="blank">_</string>
+    <string name="internet_error">Impossible de se connecter à internet</string>
+    <string name="no_internet">Aucune connexion Internet.</string>
 </resources>
