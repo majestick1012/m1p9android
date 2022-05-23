@@ -85,6 +85,7 @@ public class LessonActivity extends YouTubeBaseActivity {
 
         description = view.findViewById(R.id.artist);
         title = view.findViewById(R.id.title);
+
         imageView = view.findViewById(R.id.list_image);
         RelativeLayout relativeLayout = view.findViewById(R.id.relativelayoutdesc);
 
@@ -94,6 +95,7 @@ public class LessonActivity extends YouTubeBaseActivity {
         playYoutubeVideo(findViewById(R.id.youtube),lessonController.lessonData.getVideo());
         title.setText(lessonController.lessonData.getTitle());
         description.setText(Html.fromHtml(lessonController.lessonData.getDescription()));
+        description.setTextColor(lessonController.preference.getForegroundColor());
         Picasso.get().load(lessonController.lessonData.getImage()).into(imageView);
 
         if(lessonController.preference != null){

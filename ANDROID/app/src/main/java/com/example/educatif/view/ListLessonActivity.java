@@ -62,6 +62,7 @@ public class ListLessonActivity extends AppCompatActivity {
     List<LessonData> searchLesson = new ArrayList<>();
     Button buttonSearch;
     TableLayout tableLayout;
+    private TextInputEditText textInputEditText;
 
 
     @Override
@@ -87,7 +88,6 @@ public class ListLessonActivity extends AppCompatActivity {
         setListLesson();
         addSearchLesson();
 
-
         if(lessonController.preference==null){
             lessonController.preference = new Preferences(Color.BLACK,Color.WHITE,
                     1000,
@@ -98,7 +98,18 @@ public class ListLessonActivity extends AppCompatActivity {
                     500,
                     1);
         }
-        ListLessonActivity.this.findViewById(R.id.principalViewLesson).setBackgroundColor(lessonController.preference.getBackgroundColor());
+        textInputEditText = findViewById(R.id.textSearch);
+        if(lessonController.preference.getBackgroundColor()==Color.BLACK){
+            String uridark = "@drawable/bg_dark";
+            int imageResourceDark = getResources().getIdentifier(uridark, null, getPackageName());
+            //ListLessonActivity.this.findViewById(R.id.principalViewLesson).setBackgroundResource(imageResourceDark);
+            ListLessonActivity.this.findViewById(R.id.principalViewLesson).setBackgroundColor(lessonController.preference.getBackgroundColor());
+        }
+        else {
+            ListLessonActivity.this.findViewById(R.id.principalViewLesson).setBackgroundColor(lessonController.preference.getBackgroundColor());
+        }
+        textInputEditText.setTextColor(Color.BLACK);
+
     }
 
     @SuppressLint("ResourceType")
@@ -260,8 +271,8 @@ public class ListLessonActivity extends AppCompatActivity {
 
                 cardView.addView(imageView,imageparams.width,imageparams.height);
                 cardView.setLayoutParams(layoutParamscardView);
-                //tableRow.addView(new TextView(this),40,40);
-                tableRow.setMinimumWidth(linearLayout.getWidth());
+                if(lessonController.preference.getRows()>1)
+                 tableRow.addView(new TextView(this),40,40);
 
                 tableRow.addView(cardView,(int)lessonController.preference.getTextTableWidth(),(int)lessonController.preference.getTextTableHeight());
 
@@ -301,6 +312,7 @@ public class ListLessonActivity extends AppCompatActivity {
             if(k>=length)break;
         }
         linearLayout.addView(view);
+
     }
 
     public static String getAlphaNumericString(int n)
@@ -332,7 +344,6 @@ public class ListLessonActivity extends AppCompatActivity {
 
     public void createNotif(String message, int size){
         String id=getAlphaNumericString(10);
-
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
         if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.O){
@@ -382,6 +393,7 @@ public class ListLessonActivity extends AppCompatActivity {
                      }
                      if(searchLesson == null) {
                          searchLesson = lessonController.lesson.getData();
+
                      }
                      createNotif(getString(R.string.notification_recherche), searchLesson.size());
                      searchlessonlist(searchLesson);
