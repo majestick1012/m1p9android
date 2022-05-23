@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -208,6 +207,7 @@ public class ListLessonActivity extends AppCompatActivity {
                 public void onResponse(Call<Lesson> call, Response<Lesson> response) {
                     Lesson result = response.body();
                     lessonController.lesson = result;
+                    createNotif(getString(R.string.notification_text), result.getData().size());
                     searchlessonlist(lessonController.lesson.getData());
                     if(result != null && !result.getSuccess()){
                         SharedPreferences.Editor Ed = sharedPreferences.edit();
@@ -310,7 +310,6 @@ public class ListLessonActivity extends AppCompatActivity {
             if(k>=length)break;
         }
         linearLayout.addView(view);
-        createNotif();
     }
 
     public static String getAlphaNumericString(int n)
@@ -340,7 +339,7 @@ public class ListLessonActivity extends AppCompatActivity {
         return sb.toString();
     }
 
-    public void createNotif(){
+    public void createNotif(String message, int size){
         String id=getAlphaNumericString(10);
 
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -351,7 +350,7 @@ public class ListLessonActivity extends AppCompatActivity {
                 channel= new NotificationChannel(id,"Nombre de Lecon",NotificationManager.IMPORTANCE_HIGH);
                 channel.setDescription("Educative pour vos Enfants");
                 channel.enableVibration(true);
-                channel.setVibrationPattern(new long[]{100,1000,200,340});
+                channel.setVibrationPattern(new long[]{300});
                 channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
                 manager.createNotificationChannel(channel);
                 Intent notificationIntent =new Intent(this,NotificationActivity.class);
@@ -360,26 +359,15 @@ public class ListLessonActivity extends AppCompatActivity {
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(this,id)
                         .setSmallIcon(R.drawable.logo)
                         .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.drawable.logo))
-                        .setContentTitle("ABC application Educatives pour les Enfant")
-                        .setContentText("La liste des Activités que vous rechercher compte "+Integer.toString(lessonController.lesson.getData().size()))
+                        .setContentTitle(getString(R.string.app_name))
+                        .setContentText(String.format(message, size))
                         .setPriority(NotificationCompat.PRIORITY_HIGH)
-                        .setVibrate(new long[]{100,1000,200,340})
-                        .setAutoCancel(true)//tounch on notification menu dismissed,but swipe to dismis
+                        .setAutoCancel(true)// touch on notification menu dismissed
                         .setTicker("notification");
-
                         builder.setContentIntent(contentIntent);
                         NotificationManagerCompat m = NotificationManagerCompat.from(getApplicationContext());
-
                         //id to generate new notification in build
                         m.notify(1, builder.build());
-
-
-
-
-
-
-
-
             }
         }
     }
@@ -404,6 +392,7 @@ public class ListLessonActivity extends AppCompatActivity {
                      if(searchLesson == null) {
                          searchLesson = lessonController.lesson.getData();
                      }
+                     createNotif(getString(R.string.notification_recherche), searchLesson.size());
                      searchlessonlist(searchLesson);
                  }
              });

@@ -79,4 +79,7 @@
     <string name="signup">"S'inscrire"</string>
     <string name="signup_success">Inscription réussie !</string>
     <string name="signup_failed">Échec de l\'inscription</string>
+
+    <string name="notification_text">Nous vous proposons %s activités. Enjoy !</string>
+    <string name="notification_recherche">Nous avons trouver %s activités par rapport à votre recherche.</string>
 </resources>
