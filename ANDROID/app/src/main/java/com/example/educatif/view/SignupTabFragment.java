@@ -78,20 +78,20 @@ public class SignupTabFragment extends Fragment {
                         Login login = response.body();
                         if(login!=null && login.getSuccess()) {
                             loadingDialog.dismissDialog();
-                            Toast.makeText(root.getContext(),"inscription fait",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(root.getContext(),R.string.signup_success,Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(root.getContext(),LoginActivity.class);
                             startActivity(intent);
                         }
                         else{
                             loadingDialog.dismissDialog();
-                            Toast.makeText(root.getContext(),"Echec de l'inscription",Toast.LENGTH_LONG).show();
+                            Toast.makeText(root.getContext(),R.string.signup_failed,Toast.LENGTH_LONG).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<Login> call, Throwable t) {
                         loadingDialog.dismissDialog();
-                        Toast.makeText(root.getContext(),t.getMessage(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(root.getContext(),R.string.no_internet,Toast.LENGTH_SHORT).show();
                     }
                 });
             }
