@@ -1,0 +1,13 @@
+[{
+  "_id": {
+    "$oid": "628630bdd144f254643e058f"
+  },
+  "title": "Les jours de la semaine",
+  "description": "Apprenez les Jours de la Semaine en Francais avec une Chanson.",
+  "video": "x-G1kkJR65Q",
+  "image": "https://i.ibb.co/bFvk4FG/4.png",
+  "idParameter": {
+    "$oid": "62862e53d144f254643e0577"
+  }
+}
+}]

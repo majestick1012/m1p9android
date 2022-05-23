@@ -1,0 +1,299 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "ABC",
+    "description": "List of all APIs published on our server https://m1p9android-jm.herokuapp.com/",
+    "version": "1.0.0"
+  },
+  "produces": ["application/json"],
+  "securityDefinitions": {
+    "Authentication Bearer": {
+      "name": "Authorization",
+      "in": "header",
+      "type": "apiKey",
+      "description": "JWT Authorization header"
+    }
+  },
+  "paths": {
+    "/api/activity/all": {
+      "get": {
+        "x-swagger-router-controller": "home",
+        "operationId": "activity",
+        "tags": ["Activity"],
+        "description": "Activity",
+        "parameters": [],
+        "security": [{ "Authentication Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Get success",
+            "schema": {
+              "$ref": "#/definitions/Activity"
+            }
+          },
+          "204": {
+            "description": "No results",
+            "schema": {
+              "$ref": "#/definitions/Activity"
+            }
+          }
+        }
+      }
+    },
+    "/api/activity/{id}": {
+      "get": {
+        "x-swagger-router-controller": "home",
+        "operationId": "activityById",
+        "tags": ["Activity"],
+        "description": "Activity",
+        "security": [{ "Authentication Bearer": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get success",
+            "schema": {
+              "$ref": "#/definitions/Activity"
+            }
+          },
+          "204": {
+            "description": "No results",
+            "schema": {
+              "$ref": "#/definitions/Activity"
+            }
+          }
+        }
+      }
+    },
+    "/api/user/login": {
+      "post": {
+        "x-swagger-router-controller": "home",
+        "operationId": "login",
+        "tags": ["User"],
+        "description": "Login",
+        "parameters": [
+          {
+            "name": "Login",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Login"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login success",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "401": {
+            "description": "Authentication failed",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/user/signup": {
+      "post": {
+        "x-swagger-router-controller": "home",
+        "operationId": "signup",
+        "tags": ["User"],
+        "description": "Signup",
+        "parameters": [
+          {
+            "name": "Signup",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Signup"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Signup success",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "401": {
+            "description": "Email already used",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
+    "/api/user/logout": {
+      "post": {
+        "x-swagger-router-controller": "home",
+        "operationId": "logout",
+        "tags": ["User"],
+        "description": "Logout",
+        "security": [{ "Authentication Bearer": [] }],
+        "parameters": [
+          {
+            "name": "Logout",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "required": ["id"],
+              "properties": {
+                "id": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Logout success",
+            "schema": {
+              "$ref": "#/definitions/SuccessModel"
+            }
+          },
+          "500": {
+            "description": "Logout failed",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Activity": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "video": {
+              "type": "string"
+            },
+            "image": {
+              "type": "string"
+            },
+            "idParameter": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "Login": {
+      "type": "object",
+      "required": ["email", "password"],
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "Signup": {
+      "type": "object",
+      "required": ["email", "password", "firstname", "lastname"],
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "firstname": {
+          "type": "string"
+        },
+        "lastname": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "firstname": {
+              "type": "string"
+            },
+            "lastname": {
+              "type": "string"
+            },
+            "authToken": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "SuccessModel": {
+      "type": "object",
+      "required": ["success", "message"],
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "ErrorModel": {
+      "type": "object",
+      "required": ["success", "message"],
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "example": false
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

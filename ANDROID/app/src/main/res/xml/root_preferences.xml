@@ -1,0 +1,34 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="Apparence">
+    <SwitchPreference
+        app:key="@string/sp_mode"
+        app:title="@string/titlecolor"
+        app:defaultValue="false"
+        app:icon="@drawable/moon"
+        />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Taille de la liste">
+    <SwitchPreference
+        app:key="@string/sp_policy_small"
+        app:title="@string/title_policy_small"
+        app:defaultValue="false"
+        app:icon="@drawable/alphabetcapital"
+        />
+
+    <SwitchPreference
+        app:key="@string/sp_policy_normal"
+        app:title="@string/title_policy_normal"
+        app:defaultValue="false"
+        app:icon="@drawable/alphabetcapital"
+        />
+
+    <SwitchPreference
+        app:key="@string/sp_policy_big"
+        app:title="@string/title_policy_big"
+        app:defaultValue="true"
+        app:icon="@drawable/alphabetcapital"
+        />
+    </PreferenceCategory>
+</PreferenceScreen>

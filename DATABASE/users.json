@@ -1,10 +1,11 @@
 [{
   "_id": {
-    "$oid": "627a13ca07c6485efcec26b5"
+    "$oid": "628b62f1d13f0c9925ff83a2"
   },
-  "email": "majestick1012@gmail.com",
-  "firstname": "Maje",
-  "lastname": "REZAL",
-  "password": "$2b$10$TGqjXuoqIaYBuE8eDDiAwuSdDr8iaWt/GJ1Pl/YySQpT3euFhDFbm",
-  "authToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hamVzdGljazEwMTJAZ21haWwuY29tIiwidXNlcklkIjoiNjI3YTEzY2EwN2M2NDg1ZWZjZWMyNmI1IiwiaWF0IjoxNjUyMTY5MjcwLCJleHAiOjE2NTIxOTgwNzB9.dZfZ-gsN8M0zEDsYeY732cLe7dQWkdGHsU5OFpc7VPU"
+  "email": "test@gmail.com",
+  "firstname": "test",
+  "lastname": "test",
+  "password": "$2b$10$4wJEvBwtEtgLKfiRdiae9OMm1o5sN5Bedr0M9znhHgfFMJVf1ucmG",
+  "authToken": null,
+  "__v": 0
 }]
