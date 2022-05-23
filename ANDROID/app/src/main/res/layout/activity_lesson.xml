@@ -43,53 +43,60 @@
                 android:orientation="horizontal" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:text="Completer par la bonne réponse"
-                android:textColor="#9acd32"
-                android:textSize="25dp" />
+                android:background="@color/black"
+                android:gravity="center"
+                android:text="@string/header_exercise"
+                android:textColor="@color/white"
+                android:textSize="25sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:id="@+id/similation"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/green">
 
                 <TextView
                     android:id="@+id/alphabetprev"
                     android:layout_width="match_parent"
                     android:layout_height="210dp"
                     android:layout_weight="1"
-                    android:text="A"
-                    android:textSize="100dp"
-                    android:textColor="#20b2aa"
-                    android:textStyle="bold"
-                    />
+                    android:gravity="center"
+                    android:text="@string/a"
+                    android:textColor="#455A64"
+                    android:textSize="100sp"
+                    android:textStyle="bold" />
 
 
                 <EditText
                     android:id="@+id/editTextTextPersonName"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
+                    android:layout_marginBottom="40dp"
                     android:layout_weight="1"
                     android:ems="10"
+                    android:gravity="center"
+                    android:hint="@string/blank"
+                    android:importantForAutofill="no"
                     android:inputType="textPersonName"
-                    android:textColor="#20b2aa"
-                    android:hint="_"
-                    android:textSize="100dp"
-                    android:layout_marginBottom="40dp"
-                    />
+                    android:textColor="#455A64"
+                    android:textColorHighlight="@color/white"
+                    android:textColorHint="#455A64"
+                    android:textSize="100sp" />
 
                 <TextView
                     android:id="@+id/alphabetnext"
                     android:layout_width="match_parent"
                     android:layout_height="210dp"
                     android:layout_weight="1"
-                    android:text="A"
-                    android:textSize="100dp"
-                    android:textColor="#20b2aa"
-                    android:textStyle="bold"
-                    />
+                    android:gravity="center"
+                    android:text="@string/a"
+                    android:textColor="#455A64"
+                    android:textSize="100sp"
+                    android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

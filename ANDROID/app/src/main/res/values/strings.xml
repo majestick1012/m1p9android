@@ -69,4 +69,7 @@
     <string name="lastname">Nom</string>
 
     <string name="urlAPI">https://m1p9android-jm.herokuapp.com/api/</string>
+    <string name="header_exercise">Compléter par la bonne réponse</string>
+    <string name="a">A</string>
+    <string name="blank">_</string>
 </resources>
