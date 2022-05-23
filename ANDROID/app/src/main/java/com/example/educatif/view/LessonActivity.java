@@ -35,6 +35,7 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import pl.droidsonroids.gif.GifImageView;
 import retrofit2.Retrofit;
 
 public class LessonActivity extends YouTubeBaseActivity {
@@ -43,7 +44,10 @@ public class LessonActivity extends YouTubeBaseActivity {
     private TextView description,title;
     private ImageView imageView;
     EditText textInputEditText;
+    TextView textScore;
+    GifImageView bravo;
     int rand_int;
+    int score = 0;
 
     private int j = 0;
     @Override
@@ -146,10 +150,7 @@ public class LessonActivity extends YouTubeBaseActivity {
 
     public void similation(){
         textInputEditText = (EditText)findViewById(R.id.editTextTextPersonName);
-
         String alp = "abcdefghijklmnopqrstuvwxyz";
-
-
 
         int min=0, max=alp.length()-4;
         rand_int = (int)(Math.random()*((max-min)+1))+min;
@@ -158,10 +159,12 @@ public class LessonActivity extends YouTubeBaseActivity {
         TextView textViewnext = findViewById(R.id.alphabetnext);
         textView.setText(alp.substring(rand_int,rand_int+1));
         textViewnext.setText(alp.substring(rand_int+2,rand_int+3));
+        bravo = findViewById(R.id.bravo);
+
         textInputEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                //Toast.makeText(LessonActivity.this,rand_int,Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
@@ -170,7 +173,6 @@ public class LessonActivity extends YouTubeBaseActivity {
                 if(charSequence.length()>1){
                     textInputEditText.setText("");
                 }
-                // Toast.makeText(LessonActivity.this,alp,Toast.LENGTH_SHORT).show();
 
                 int rep = alp.indexOf(charSequence.toString().toLowerCase(Locale.ROOT));
                 //int truerep = alp.indexOf(rand_int);
@@ -182,18 +184,33 @@ public class LessonActivity extends YouTubeBaseActivity {
                     {
                         rand_int = (int)(Math.random()*((max-min)+1))+min;
                         Toast.makeText(LessonActivity.this,"Bravo",Toast.LENGTH_LONG).show();
+                        score++;
+                        textScore = findViewById(R.id.score);
+                        textScore.setText(Integer.toString(score));
 
                         new Timer().schedule(new TimerTask() {
                             @Override
                             public void run() {
-                                // here goes your code to delay
                                 textViewnext.setText(alp.substring(rand_int+2,rand_int+3));
                                 textView.setText(alp.substring(rand_int,rand_int+1));
                                 textInputEditText.setText("");
 
                             }
                         }, 2000L);
+
+                        try{
+                            bravo.setVisibility(View.VISIBLE);
+                        }
+                        catch (Exception ex){
+                        }
                         //textInputEditText.setEnabled(false);
+                    }
+                    else {
+                        try{
+                            bravo.setVisibility(View.INVISIBLE);
+                        }
+                        catch (Exception ex){
+                        }
                     }
                 }
 
@@ -222,6 +239,7 @@ public class LessonActivity extends YouTubeBaseActivity {
         String textnext = Integer.toString(rand_int+1);
         textView.setText(textprev);
         textViewnext.setText(textnext);
+        bravo = findViewById(R.id.bravo);
         textInputEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -247,7 +265,9 @@ public class LessonActivity extends YouTubeBaseActivity {
                 if(rep==rand_int){
                     rand_int = (int)(Math.random()*((max-min)+1))+min;
                     Toast.makeText(LessonActivity.this,"Bravo",Toast.LENGTH_LONG).show();
-
+                    score++;
+                    textScore = findViewById(R.id.score);
+                    textScore.setText(Integer.toString(score));
                     new Timer().schedule(new TimerTask() {
                         @Override
                         public void run() {
@@ -260,7 +280,20 @@ public class LessonActivity extends YouTubeBaseActivity {
                             //return;
                         }
                     }, 2000L);
+                    try{
+                        bravo.setVisibility(View.VISIBLE);
+                    }
+                    catch (Exception ex){
+                    }
                     //textInputEditText.setEnabled(false);
+                }
+                else {
+                    try{
+                        bravo.setVisibility(View.INVISIBLE);
+                    }
+                    catch (Exception ex){
+                    }
+
                 }
             }
 
