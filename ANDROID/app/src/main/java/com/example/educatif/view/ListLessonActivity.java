@@ -134,7 +134,7 @@ public class ListLessonActivity extends AppCompatActivity {
                 startActivity(intent);
             case R.id.action_logout:
                 Intent intentLogout = new Intent(ListLessonActivity.this, LogoutActivity.class);
-                startActivity(intentLogout);
+                //startActivity(intentLogout);
             default:
                 return super.onOptionsItemSelected(item);
         }

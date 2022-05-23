@@ -6,9 +6,12 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -27,6 +30,10 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import retrofit2.Retrofit;
 
 public class LessonActivity extends YouTubeBaseActivity {
@@ -36,6 +43,8 @@ public class LessonActivity extends YouTubeBaseActivity {
     private String base_Url="https://m1p9android-jm.herokuapp.com";
     private TextView description,title;
     private ImageView imageView;
+    EditText textInputEditText;
+    int rand_int;
 
     private int j = 0;
     @Override
@@ -44,6 +53,13 @@ public class LessonActivity extends YouTubeBaseActivity {
         setContentView(R.layout.activity_lesson);
         redirectIfNotAuthenticated();
         init();
+
+        if(lessonController.lessonData.getTitle().toLowerCase(Locale.ROOT).trim().equals("les chiffres")){
+            similationChiffre();
+        }
+        else {
+            similation();
+        }
         //Toast.makeText(this,lessonController.lessonData.getVideo(),Toast.LENGTH_SHORT).show();
     }
 
@@ -138,5 +154,132 @@ public class LessonActivity extends YouTubeBaseActivity {
             }
         }
 
+    }
+
+    public void similation(){
+        textInputEditText = (EditText)findViewById(R.id.editTextTextPersonName);
+
+        String alp = "abcdefghijklmnopqrstuvwxyz";
+
+
+
+        int min=0, max=alp.length()-4;
+        rand_int = (int)(Math.random()*((max-min)+1))+min;
+        TextView textView = findViewById(R.id.alphabetprev);
+        textView.setText(alp.substring(rand_int,rand_int+1));
+        TextView textViewnext = findViewById(R.id.alphabetnext);
+        textView.setText(alp.substring(rand_int,rand_int+1));
+        textViewnext.setText(alp.substring(rand_int+2,rand_int+3));
+        textInputEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //Toast.makeText(LessonActivity.this,rand_int,Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                if(charSequence.length()>1){
+                    textInputEditText.setText("");
+                }
+                // Toast.makeText(LessonActivity.this,alp,Toast.LENGTH_SHORT).show();
+
+                int rep = alp.indexOf(charSequence.toString().toLowerCase(Locale.ROOT));
+                //int truerep = alp.indexOf(rand_int);
+                if(rep>=0){
+                    String result = alp.substring(rep,rep+1);
+                    String repres = alp.substring(rand_int,rand_int+1);
+                    Log.d("messabe mivandravandra",alp.substring(rand_int,rand_int+1)+" "+result);
+                    if(alp.indexOf(result)==alp.indexOf(repres)+1)
+                    {
+                        rand_int = (int)(Math.random()*((max-min)+1))+min;
+                        Toast.makeText(LessonActivity.this,"Bravo",Toast.LENGTH_LONG).show();
+
+                        new Timer().schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                // here goes your code to delay
+                                textViewnext.setText(alp.substring(rand_int+2,rand_int+3));
+                                textView.setText(alp.substring(rand_int,rand_int+1));
+                                textInputEditText.setText("");
+
+                            }
+                        }, 2000L);
+                        //textInputEditText.setEnabled(false);
+                    }
+                }
+
+
+
+            }
+
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                //Toast.makeText(LessonActivity.this,alp.indexOf(rand_int),Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void similationChiffre(){
+        textInputEditText = (EditText)findViewById(R.id.editTextTextPersonName);
+
+        //String alp = "abcdefghijklmnopqrstuvwxyz";
+
+        int min=2, max=20;
+        rand_int = (int)(Math.random()*((max-min)+1))+min;
+        TextView textView = findViewById(R.id.alphabetprev);
+        TextView textViewnext = findViewById(R.id.alphabetnext);
+        String textprev = Integer.toString(rand_int-1);
+        String textnext = Integer.toString(rand_int+1);
+        textView.setText(textprev);
+        textViewnext.setText(textnext);
+        textInputEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //Toast.makeText(LessonActivity.this,rand_int,Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                if(charSequence.length()>2){
+                    textInputEditText.setText("");
+                }
+                // Toast.makeText(LessonActivity.this,alp,Toast.LENGTH_SHORT).show();
+                int rep = 0;
+                try{
+                    rep = Integer.parseInt(charSequence.toString());
+                }
+                catch (Exception ex){
+
+                }
+
+                //int truerep = alp.indexOf(rand_int);
+                if(rep==rand_int){
+                    rand_int = (int)(Math.random()*((max-min)+1))+min;
+                    Toast.makeText(LessonActivity.this,"Bravo",Toast.LENGTH_LONG).show();
+
+                    new Timer().schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            // here goes your code to delay
+                            String textprev = Integer.toString(rand_int-1);
+                            String textnext = Integer.toString(rand_int+1);
+                            textView.setText(textprev);
+                            textViewnext.setText(textnext);
+                            textInputEditText.setText("");
+                            //return;
+                        }
+                    }, 2000L);
+                    //textInputEditText.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                //Toast.makeText(LessonActivity.this,alp.indexOf(rand_int),Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

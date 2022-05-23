@@ -42,21 +42,54 @@
                 android:layout_weight="1"
                 android:orientation="horizontal" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="Completer par la bonne réponse"
+                android:textColor="#9acd32"
+                android:textSize="25dp" />
+
             <LinearLayout
                 android:id="@+id/similation"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:layout_weight="1">
 
-               <!-- <Button
-                    android:id="@+id/button2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:layout_marginTop="50dp"
-                    android:text="Exercice" />-->
+                <TextView
+                    android:id="@+id/alphabetprev"
+                    android:layout_width="match_parent"
+                    android:layout_height="210dp"
+                    android:layout_weight="1"
+                    android:text="A"
+                    android:textSize="100dp"
+                    android:textColor="#20b2aa"
+                    android:textStyle="bold"
+                    />
+
+
+                <EditText
+                    android:id="@+id/editTextTextPersonName"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:textColor="#20b2aa"
+                    android:hint="_"
+                    android:textSize="100dp"
+                    android:layout_marginBottom="40dp"
+                    />
+
+                <TextView
+                    android:id="@+id/alphabetnext"
+                    android:layout_width="match_parent"
+                    android:layout_height="210dp"
+                    android:layout_weight="1"
+                    android:text="A"
+                    android:textSize="100dp"
+                    android:textColor="#20b2aa"
+                    android:textStyle="bold"
+                    />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
