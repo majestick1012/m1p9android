@@ -1,26 +1,30 @@
 package com.example.educatif.view;
 
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -307,6 +311,78 @@ public class ListLessonActivity extends AppCompatActivity {
             if(k>=length)break;
         }
         linearLayout.addView(view);
+        createNotif();
+    }
+
+    public static String getAlphaNumericString(int n)
+    {
+
+        // chose a Character random from this String
+        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                + "0123456789"
+                + "abcdefghijklmnopqrstuvxyz";
+
+        // create StringBuffer size of AlphaNumericString
+        StringBuilder sb = new StringBuilder(n);
+
+        for (int i = 0; i < n; i++) {
+
+            // generate a random number between
+            // 0 to AlphaNumericString variable length
+            int index
+                    = (int)(AlphaNumericString.length()
+                    * Math.random());
+
+            // add Character one by one in end of sb
+            sb.append(AlphaNumericString
+                    .charAt(index));
+        }
+
+        return sb.toString();
+    }
+
+    public void createNotif(){
+        String id=getAlphaNumericString(10);
+
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.O){
+            NotificationChannel channel  = manager.getNotificationChannel(id);
+            if(channel ==null){
+                channel= new NotificationChannel(id,"Nombre de Lecon",NotificationManager.IMPORTANCE_HIGH);
+                channel.setDescription("Educative pour vos Enfants");
+                channel.enableVibration(true);
+                channel.setVibrationPattern(new long[]{100,1000,200,340});
+                channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+                manager.createNotificationChannel(channel);
+                Intent notificationIntent =new Intent(this,NotificationActivity.class);
+                notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                PendingIntent contentIntent = PendingIntent.getActivity(this,0,notificationIntent,0);
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(this,id)
+                        .setSmallIcon(R.drawable.logo)
+                        .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.drawable.logo))
+                        .setContentTitle("ABC application Educatives pour les Enfant")
+                        .setContentText("La liste des Activités que vous rechercher compte "+Integer.toString(lessonController.lesson.getData().size()))
+                        .setPriority(NotificationCompat.PRIORITY_HIGH)
+                        .setVibrate(new long[]{100,1000,200,340})
+                        .setAutoCancel(true)//tounch on notification menu dismissed,but swipe to dismis
+                        .setTicker("notification");
+
+                        builder.setContentIntent(contentIntent);
+                        NotificationManagerCompat m = NotificationManagerCompat.from(getApplicationContext());
+
+                        //id to generate new notification in build
+                        m.notify(1, builder.build());
+
+
+
+
+
+
+
+
+            }
+        }
     }
 
     public void addSearchLesson(){
