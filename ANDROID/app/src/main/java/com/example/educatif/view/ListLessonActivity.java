@@ -65,6 +65,7 @@ public class ListLessonActivity extends AppCompatActivity {
     List<LessonData> searchLesson = new ArrayList<>();
     Button buttonSearch;
     TableLayout tableLayout;
+    private TextInputEditText textInputEditText;
 
 
     @Override
@@ -90,7 +91,6 @@ public class ListLessonActivity extends AppCompatActivity {
         setListLesson();
         addSearchLesson();
 
-
         if(lessonController.preference==null){
             lessonController.preference = new Preferences(Color.BLACK,Color.WHITE,
                     1000,
@@ -101,6 +101,7 @@ public class ListLessonActivity extends AppCompatActivity {
                     500,
                     1);
         }
+        textInputEditText = findViewById(R.id.textSearch);
         if(lessonController.preference.getBackgroundColor()==Color.BLACK){
             String uridark = "@drawable/bg_dark";
             int imageResourceDark = getResources().getIdentifier(uridark, null, getPackageName());
@@ -110,6 +111,7 @@ public class ListLessonActivity extends AppCompatActivity {
         else {
             ListLessonActivity.this.findViewById(R.id.principalViewLesson).setBackgroundColor(lessonController.preference.getBackgroundColor());
         }
+        textInputEditText.setTextColor(Color.BLACK);
 
     }
 
@@ -271,7 +273,8 @@ public class ListLessonActivity extends AppCompatActivity {
 
                 cardView.addView(imageView,imageparams.width,imageparams.height);
                 cardView.setLayoutParams(layoutParamscardView);
-                tableRow.addView(new TextView(this),40,40);
+                if(lessonController.preference.getRows()>1)
+                 tableRow.addView(new TextView(this),40,40);
 
                 tableRow.addView(cardView,(int)lessonController.preference.getTextTableWidth(),(int)lessonController.preference.getTextTableHeight());
 
@@ -311,7 +314,7 @@ public class ListLessonActivity extends AppCompatActivity {
             if(k>=length)break;
         }
         linearLayout.addView(view);
-        createNotif();
+
     }
 
     public static String getAlphaNumericString(int n)
@@ -341,9 +344,8 @@ public class ListLessonActivity extends AppCompatActivity {
         return sb.toString();
     }
 
-    public void createNotif(){
+    public void createNotif(int size){
         String id=getAlphaNumericString(10);
-
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
         if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.O){
@@ -362,7 +364,7 @@ public class ListLessonActivity extends AppCompatActivity {
                         .setSmallIcon(R.drawable.logo)
                         .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.drawable.logo))
                         .setContentTitle("ABC application Educatives pour les Enfant")
-                        .setContentText("La liste des Activités que vous rechercher compte "+Integer.toString(lessonController.lesson.getData().size()))
+                        .setContentText("La liste des Activités que vous rechercher compte "+Integer.toString(size))
                         .setPriority(NotificationCompat.PRIORITY_HIGH)
                         .setVibrate(new long[]{100,1000,200,340})
                         .setAutoCancel(true)//tounch on notification menu dismissed,but swipe to dismis
@@ -404,10 +406,13 @@ public class ListLessonActivity extends AppCompatActivity {
                      }
                      if(searchLesson == null) {
                          searchLesson = lessonController.lesson.getData();
+
                      }
                      searchlessonlist(searchLesson);
+                     createNotif(searchLesson.size());
                  }
              });
+                 createNotif(lessonController.lesson.getData().size());
 
         }
         catch (Exception ex){
