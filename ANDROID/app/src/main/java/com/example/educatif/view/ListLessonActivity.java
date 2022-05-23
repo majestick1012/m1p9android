@@ -98,16 +98,7 @@ public class ListLessonActivity extends AppCompatActivity {
                     500,
                     1);
         }
-        if(lessonController.preference.getBackgroundColor()==Color.BLACK){
-            String uridark = "@drawable/bg_dark";
-            int imageResourceDark = getResources().getIdentifier(uridark, null, getPackageName());
-            //ListLessonActivity.this.findViewById(R.id.principalViewLesson).setBackgroundResource(imageResourceDark);
-            ListLessonActivity.this.findViewById(R.id.principalViewLesson).setBackgroundColor(lessonController.preference.getBackgroundColor());
-        }
-        else {
-            ListLessonActivity.this.findViewById(R.id.principalViewLesson).setBackgroundColor(lessonController.preference.getBackgroundColor());
-        }
-
+        ListLessonActivity.this.findViewById(R.id.principalViewLesson).setBackgroundColor(lessonController.preference.getBackgroundColor());
     }
 
     @SuppressLint("ResourceType")
@@ -269,7 +260,7 @@ public class ListLessonActivity extends AppCompatActivity {
 
                 cardView.addView(imageView,imageparams.width,imageparams.height);
                 cardView.setLayoutParams(layoutParamscardView);
-                tableRow.addView(new TextView(this),40,40);
+                //tableRow.addView(new TextView(this),40,40);
                 tableRow.setMinimumWidth(linearLayout.getWidth());
 
                 tableRow.addView(cardView,(int)lessonController.preference.getTextTableWidth(),(int)lessonController.preference.getTextTableHeight());
@@ -347,10 +338,10 @@ public class ListLessonActivity extends AppCompatActivity {
         if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.O){
             NotificationChannel channel  = manager.getNotificationChannel(id);
             if(channel ==null){
-                channel= new NotificationChannel(id,"Nombre de Lecon",NotificationManager.IMPORTANCE_HIGH);
-                channel.setDescription("Educative pour vos Enfants");
+                channel= new NotificationChannel(id,getString(R.string.app_name),NotificationManager.IMPORTANCE_HIGH);
+                channel.setDescription(getString(R.string.app_desc));
                 channel.enableVibration(true);
-                channel.setVibrationPattern(new long[]{300});
+                channel.setVibrationPattern(new long[]{200,200,200,200});
                 channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
                 manager.createNotificationChannel(channel);
                 Intent notificationIntent =new Intent(this,NotificationActivity.class);
