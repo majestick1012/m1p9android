@@ -39,8 +39,6 @@ import retrofit2.Retrofit;
 public class LessonActivity extends YouTubeBaseActivity {
     List<Button> buttonExercice = new ArrayList<>();
     LessonController lessonController;
-
-    private String base_Url="https://m1p9android-jm.herokuapp.com";
     private TextView description,title;
     private ImageView imageView;
     EditText textInputEditText;

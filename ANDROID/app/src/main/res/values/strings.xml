@@ -68,5 +68,5 @@
     <string name="firstname">Prénom</string>
     <string name="lastname">Nom</string>
 
-
+    <string name="urlAPI">https://m1p9android-jm.herokuapp.com/api/</string>
 </resources>

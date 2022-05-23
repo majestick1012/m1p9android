@@ -57,7 +57,6 @@ public class ListLessonActivity extends AppCompatActivity {
     private RetrofitLessonInterface retrofitLessonInterface;
     private RetrofitInterface retrofitInterface;
     private SharedPreferences sharedPreferences;
-    private String base_Url="https://m1p9android-jm.herokuapp.com";
     SwitchCompat switchCompat;
     int color;
     private LoadingDialog loadingDialog;
@@ -81,7 +80,7 @@ public class ListLessonActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list_lesson);
         linearLayout = findViewById(R.id.constraintLayoutVideo);
         lessonController = LessonController.getInstance();
-        retrofit = new Retrofit.Builder().baseUrl(base_Url).addConverterFactory(GsonConverterFactory.create()).build();
+        retrofit = new Retrofit.Builder().baseUrl(getString(R.string.urlAPI)).addConverterFactory(GsonConverterFactory.create()).build();
         retrofitLessonInterface = retrofit.create(RetrofitLessonInterface.class);
         retrofitInterface = retrofit.create(RetrofitInterface.class);
         loadingDialog = new LoadingDialog(ListLessonActivity.this);

@@ -36,7 +36,6 @@ public class SignupTabFragment extends Fragment {
     private LoadingDialog loadingDialog;
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
-    private String base_Url="https://m1p9android-jm.herokuapp.com";
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -50,7 +49,7 @@ public class SignupTabFragment extends Fragment {
         lastname = root.findViewById(R.id.lastname);
 
 
-        retrofit = new Retrofit.Builder().baseUrl(base_Url).addConverterFactory(GsonConverterFactory.create()).build();
+        retrofit = new Retrofit.Builder().baseUrl(getString(R.string.urlAPI)).addConverterFactory(GsonConverterFactory.create()).build();
         retrofitInterface = retrofit.create(RetrofitInterface.class);
         handleSignUpDialog();
         //InsertUserView();

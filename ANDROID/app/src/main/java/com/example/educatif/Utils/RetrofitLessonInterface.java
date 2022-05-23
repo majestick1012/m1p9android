@@ -8,6 +8,6 @@ import retrofit2.http.Header;
 
 public interface RetrofitLessonInterface {
 
-        @GET("/api/activity/all")
+        @GET("activity/all")
         Call<Lesson> GetAllYoutube(@Header("authorization") String token);
 }

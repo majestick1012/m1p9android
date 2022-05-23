@@ -22,7 +22,6 @@ public final class LoginController {
     public Login login;
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
-    private String base_Url="http://testnodeekaly.herokuapp.com";
     /**
      * controller du login
      */

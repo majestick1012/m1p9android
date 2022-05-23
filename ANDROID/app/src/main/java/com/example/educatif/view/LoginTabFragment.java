@@ -34,8 +34,6 @@ public class LoginTabFragment extends Fragment {
     private LoadingDialog loadingDialog;
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
-    private String base_Url="https://m1p9android-jm.herokuapp.com";
-
 
     EditText name,password;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -44,7 +42,7 @@ public class LoginTabFragment extends Fragment {
         password = root.findViewById(R.id.pass);
         loadingDialog = new LoadingDialog(getActivity());
         VerifyLogin();
-        retrofit = new Retrofit.Builder().baseUrl(base_Url).addConverterFactory(GsonConverterFactory.create()).build();
+        retrofit = new Retrofit.Builder().baseUrl(getString(R.string.urlAPI)).addConverterFactory(GsonConverterFactory.create()).build();
         retrofitInterface = retrofit.create(RetrofitInterface.class);
         return root;
     }

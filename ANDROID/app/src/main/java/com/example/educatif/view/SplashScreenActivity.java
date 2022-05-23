@@ -25,7 +25,6 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     private Retrofit retrofit;
     private RetrofitLessonInterface retrofitLessonInterface;
-    private String base_Url="https://m1p9android-jm.herokuapp.com";
     LessonController lessonController;
 
     @Override
@@ -39,7 +38,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-        retrofit = new Retrofit.Builder().baseUrl(base_Url).addConverterFactory(GsonConverterFactory.create()).build();
+        retrofit = new Retrofit.Builder().baseUrl(getString(R.string.urlAPI)).addConverterFactory(GsonConverterFactory.create()).build();
         retrofitLessonInterface = retrofit.create(RetrofitLessonInterface.class);
         setListLesson();
 
