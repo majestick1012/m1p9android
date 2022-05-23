@@ -57,8 +57,6 @@ public class ListLessonActivity extends AppCompatActivity {
     private RetrofitLessonInterface retrofitLessonInterface;
     private RetrofitInterface retrofitInterface;
     private SharedPreferences sharedPreferences;
-    SwitchCompat switchCompat;
-    int color;
     private LoadingDialog loadingDialog;
     List<LessonData> searchLesson = new ArrayList<>();
     Button buttonSearch;
@@ -102,8 +100,8 @@ public class ListLessonActivity extends AppCompatActivity {
         if(lessonController.preference.getBackgroundColor()==Color.BLACK){
             String uridark = "@drawable/bg_dark";
             int imageResourceDark = getResources().getIdentifier(uridark, null, getPackageName());
-            ListLessonActivity.this.findViewById(R.id.principalViewLesson).setBackgroundResource(imageResourceDark);
-
+            //ListLessonActivity.this.findViewById(R.id.principalViewLesson).setBackgroundResource(imageResourceDark);
+            ListLessonActivity.this.findViewById(R.id.principalViewLesson).setBackgroundColor(lessonController.preference.getBackgroundColor());
         }
         else {
             ListLessonActivity.this.findViewById(R.id.principalViewLesson).setBackgroundColor(lessonController.preference.getBackgroundColor());
@@ -292,7 +290,7 @@ public class ListLessonActivity extends AppCompatActivity {
 
                 textView.setLayoutParams(textparams);
                 texttableRow.addView(new TextView(this),40,40);
-                texttableRow.addView(textView,(int)lessonController.preference.getTextParamsWidth(),(int)lessonController.preference.getTextParamsHeight());
+                //texttableRow.addView(textView,(int)lessonController.preference.getTextParamsWidth(),(int)lessonController.preference.getTextParamsHeight());
 
                 imageView.setOnClickListener(new View.OnClickListener(){
                     @Override
