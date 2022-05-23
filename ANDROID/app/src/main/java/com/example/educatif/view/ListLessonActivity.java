@@ -29,14 +29,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.educatif.R;
+import com.example.educatif.Utils.RetrofitInterface;
 import com.example.educatif.Utils.RetrofitLessonInterface;
 import com.example.educatif.controller.LessonController;
 import com.example.educatif.model.Lesson;
 import com.example.educatif.model.LessonData;
+import com.example.educatif.model.Login;
 import com.example.educatif.model.Preferences;
 import com.google.android.material.textfield.TextInputEditText;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -52,6 +55,7 @@ public class ListLessonActivity extends AppCompatActivity {
     LessonController lessonController;
     private Retrofit retrofit;
     private RetrofitLessonInterface retrofitLessonInterface;
+    private RetrofitInterface retrofitInterface;
     private SharedPreferences sharedPreferences;
     private String base_Url="https://m1p9android-jm.herokuapp.com";
     SwitchCompat switchCompat;
@@ -79,9 +83,9 @@ public class ListLessonActivity extends AppCompatActivity {
         lessonController = LessonController.getInstance();
         retrofit = new Retrofit.Builder().baseUrl(base_Url).addConverterFactory(GsonConverterFactory.create()).build();
         retrofitLessonInterface = retrofit.create(RetrofitLessonInterface.class);
+        retrofitInterface = retrofit.create(RetrofitInterface.class);
         loadingDialog = new LoadingDialog(ListLessonActivity.this);
         sharedPreferences = getSharedPreferences("Login", MODE_PRIVATE);
-        redirectIfNotAuthenticated();
         setListLesson();
         addSearchLesson();
 
@@ -108,15 +112,6 @@ public class ListLessonActivity extends AppCompatActivity {
 
     }
 
-    private void redirectIfNotAuthenticated(){
-        String token = sharedPreferences.getString("token", null);
-        String userId = sharedPreferences.getString("id", null);
-        if(token == null || token.isEmpty() || userId == null || userId.isEmpty()){
-            Intent intent = new Intent(getBaseContext(), LoginActivity.class);
-            startActivity(intent);
-        }
-    }
-
     @SuppressLint("ResourceType")
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -132,16 +127,74 @@ public class ListLessonActivity extends AppCompatActivity {
             case R.id.action_settings:
                 Intent intent = new Intent(ListLessonActivity.this, SettingsActivity.class);
                 startActivity(intent);
+                return true;
             case R.id.action_logout:
-                Intent intentLogout = new Intent(ListLessonActivity.this, LogoutActivity.class);
-                startActivity(intentLogout);
+                logout();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    @Override
+    public void onBackPressed () {
+
+    }
+
+    public void logout()
+    {
+        String bearerToken = "Bearer ";
+        String id = "";
+
+        String tokenStored = sharedPreferences.getString("token", null);
+        String userId = sharedPreferences.getString("id", null);
+        if(tokenStored != null && !tokenStored.isEmpty()){
+            bearerToken += tokenStored;
+        }
+        if(userId != null && !userId.isEmpty()){
+            id = userId;
+        }
+
+
+        HashMap<String,String> map = new HashMap<>();
+        map.put("id", id);
+        Log.d("tag", bearerToken);
+        Log.d("tag", id);
+
+        Call<Login> call = retrofitInterface.executeLogout(bearerToken, map);
+        loadingDialog.startLoadingDialog();
+
+        call.enqueue(new Callback<Login>() {
+            @Override
+            public void onResponse(Call<Login> call, Response<Login> response) {
+                Login login = response.body();
+                if(login!=null && login.getSuccess()) {
+                    SharedPreferences.Editor Ed = sharedPreferences.edit();
+                    Ed.clear();
+                    Ed.commit();
+
+                    Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+                    startActivity(intent);
+                    loadingDialog.dismissDialog();
+                    Toast.makeText(getBaseContext(),R.string.logout_success,Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    loadingDialog.dismissDialog();
+                    Toast.makeText(getBaseContext(),R.string.logout_failed,Toast.LENGTH_LONG).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<Login> call, Throwable t) {
+                // Error
+                loadingDialog.dismissDialog();
+                Toast.makeText(getBaseContext(),R.string.logout_failed,Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
     public void setListLesson()
     {
+        loadingDialog.startLoadingDialog();
         if(lessonController.lesson==null){
             String token = sharedPreferences.getString("token", null);
             String bearerToken = "";
@@ -149,7 +202,6 @@ public class ListLessonActivity extends AppCompatActivity {
                 bearerToken = "Bearer " + token;
             }
             Call<Lesson> call = retrofitLessonInterface.GetAllYoutube(bearerToken);
-            loadingDialog.startLoadingDialog();
             call.enqueue(new Callback<Lesson>() {
                 @Override
                 public void onResponse(Call<Lesson> call, Response<Lesson> response) {
@@ -167,8 +219,6 @@ public class ListLessonActivity extends AppCompatActivity {
             });
         }
         else {
-            loadingDialog.startLoadingDialog();
-            loadingDialog.dismissDialog();
             searchlessonlist(lessonController.lesson.getData());
             loadingDialog.dismissDialog();
         }
@@ -268,11 +318,7 @@ public class ListLessonActivity extends AppCompatActivity {
                          }
                          Log.d("Info: ",""+searchLesson.size());
                      }
-
-                     if(searchLesson!=null){
-                         //Toast.makeText(ListLessonActivity.this,searchLesson.size()+" result",Toast.LENGTH_SHORT).show();
-                     }
-                     else {
+                     if(searchLesson == null) {
                          searchLesson = lessonController.lesson.getData();
                      }
                      searchlessonlist(searchLesson);

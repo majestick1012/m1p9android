@@ -42,19 +42,8 @@ public class LessonActivity extends YouTubeBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lesson);
-        redirectIfNotAuthenticated();
         init();
         //Toast.makeText(this,lessonController.lessonData.getVideo(),Toast.LENGTH_SHORT).show();
-    }
-
-    private void redirectIfNotAuthenticated(){
-        SharedPreferences sp1 = getSharedPreferences("Login", MODE_PRIVATE);
-        String token = sp1.getString("token", null);
-        String userId = sp1.getString("id", null);
-        if(token == null || token.isEmpty() || userId == null || userId.isEmpty()){
-            Intent intent = new Intent(getBaseContext(), LoginActivity.class);
-            startActivity(intent);
-        }
     }
 
     public void playVideo(VideoView video){
