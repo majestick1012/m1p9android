@@ -76,22 +76,21 @@
                         />-->
                     <pl.droidsonroids.gif.GifImageView
                         android:id="@+id/bravo"
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
-                        android:visibility="invisible"
+                        android:layout_width="111dp"
+                        android:layout_height="65dp"
                         android:layout_weight="1"
                         android:src="@drawable/bravogif"
-                        />
+                        android:visibility="invisible" />
 
                     <TextView
-                       android:id="@+id/score"
+                        android:id="@+id/score"
                         android:layout_width="120dp"
-                        android:layout_height="120dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="Score"
                         android:textColor="#455A64"
-                        android:textSize="60dp" />
+                        android:textSize="45dp" />
                 </LinearLayout>
 
                 <LinearLayout
