@@ -61,6 +61,7 @@
     <string name="logout">Se déconnecter</string>
     <string name="logout_success">Déconnexion réussie !</string>
     <string name="logout_failed">Échec de la déconnexion</string>
+    <string name="logout_inprogress">Déconnexion...</string>
     <string name="settings">Préférences</string>
     <string name="search">Rechercher</string>
     <string name="search...">Recherche...</string>

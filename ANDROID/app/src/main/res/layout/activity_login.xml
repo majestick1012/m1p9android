@@ -109,7 +109,7 @@
         android:text="Apprendre - Bachoter - Comprendre"
         android:textAllCaps="true"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="20sp"
 
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"

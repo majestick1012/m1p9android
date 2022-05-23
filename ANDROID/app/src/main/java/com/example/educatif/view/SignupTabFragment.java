@@ -40,7 +40,7 @@ public class SignupTabFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         root = inflater.inflate(R.layout.signup_tab_fragment,container,false);
-        //getApiget();
+        
         loginController = LoginController.getInstanceLogin();
         loadingDialog = new LoadingDialog(getActivity());
         name = root.findViewById(R.id.name);
@@ -48,44 +48,10 @@ public class SignupTabFragment extends Fragment {
         password = root.findViewById(R.id.pass);
         lastname = root.findViewById(R.id.lastname);
 
-
         retrofit = new Retrofit.Builder().baseUrl(getString(R.string.urlAPI)).addConverterFactory(GsonConverterFactory.create()).build();
         retrofitInterface = retrofit.create(RetrofitInterface.class);
         handleSignUpDialog();
-        //InsertUserView();
         return root;
-
-    }
-
-    private void getApiget(){
-        ((Button)root.findViewById(R.id.button)).setOnClickListener(new Button.OnClickListener(){
-            public void onClick(View v) {
-                AccessApi accessApi = new AccessApi();
-                accessApi.sendRequest();
-                Toast.makeText(root.getContext(), AccessApi.hello, Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void InsertUserView(){
-
-
-        ((Button)root.findViewById(R.id.button)).setOnClickListener(new Button.OnClickListener(){
-            public void onClick(View v) {
-
-                String textName = name.getText().toString();
-                String textEmail = email.getText().toString();
-                String textPassword = password.getText().toString();
-                String textPhoneNumber = lastname.getText().toString();
-                loginController.login = new Login();
-                AccessApi accessApi = new AccessApi();
-                accessApi.insertUser(loginController.login,root.getContext());
-                Intent intent = new Intent(root.getContext(), LoginActivity.class);
-                startActivity(intent);
-
-                Toast.makeText(root.getContext(), "Insertion fait", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     private void handleSignUpDialog(){
