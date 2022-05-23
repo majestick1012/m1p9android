@@ -62,26 +62,6 @@ public class LessonActivity extends YouTubeBaseActivity {
         else {
             similation();
         }
-        //Toast.makeText(this,lessonController.lessonData.getVideo(),Toast.LENGTH_SHORT).show();
-    }
-
-    public void playVideo(VideoView video){
-        video.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("videoclick","onclick");
-                if(video.isPlaying())  video.pause();
-                else  video.start();
-            }
-        });
-
-        video.setOnCompletionListener(new MediaPlayer.OnCompletionListener(){
-            @Override
-            public void onCompletion(MediaPlayer mp){
-               Log.d("messageId","numero"+video.getId());
-               buttonExercice.get(video.getId()).setVisibility(View.VISIBLE);
-            }
-        });
     }
 
     public void playYoutubeVideo(YouTubePlayerView videoYoutube,String id){
@@ -108,18 +88,6 @@ public class LessonActivity extends YouTubeBaseActivity {
         }
     }
 
-    public void PlayWithButton(Button button){
-
-        button.setOnClickListener(new Button.OnClickListener(){
-           @Override
-           public void onClick(View view){
-               Log.d("videoclick","onclick");
-               //getyoutube();
-               playYoutubeVideo(findViewById(R.id.youtube),lessonController.lessonData.getVideo());
-           }
-       });
-    }
-
     public void init(){
         View view = getLayoutInflater().inflate(R.layout.row, null);
 
@@ -131,7 +99,6 @@ public class LessonActivity extends YouTubeBaseActivity {
        LinearLayout layoutDescription = findViewById(R.id.layoutDescription);
        layoutDescription.addView(view);
         lessonController = LessonController.getInstance();
-        //PlayWithButton(findViewById(R.id.bouton));
         playYoutubeVideo(findViewById(R.id.youtube),lessonController.lessonData.getVideo());
         title.setText(lessonController.lessonData.getTitle());
         description.setText(Html.fromHtml(lessonController.lessonData.getDescription()));
@@ -141,7 +108,8 @@ public class LessonActivity extends YouTubeBaseActivity {
             if(lessonController.preference.getBackgroundColor()==Color.BLACK){
                 String uridark = "@drawable/bg_dark_2";
                 int imageResourceDark = getResources().getIdentifier(uridark, null, getPackageName());
-                LessonActivity.this.findViewById(R.id.lessonvideoprincipal).setBackgroundResource(imageResourceDark);
+                LessonActivity.this.findViewById(R.id.lessonvideoprincipal).setBackgroundColor(lessonController.preference.getBackgroundColor());
+               //LessonActivity.this.findViewById(R.id.lessonvideoprincipal).setBackgroundResource(imageResourceDark);
                 relativeLayout.setBackgroundColor(lessonController.preference.getBackgroundColor());
             }
         }
@@ -228,9 +196,6 @@ public class LessonActivity extends YouTubeBaseActivity {
 
     public void similationChiffre(){
         textInputEditText = (EditText)findViewById(R.id.editTextTextPersonName);
-
-        //String alp = "abcdefghijklmnopqrstuvwxyz";
-
         int min=2, max=20;
         rand_int = (int)(Math.random()*((max-min)+1))+min;
         TextView textView = findViewById(R.id.alphabetprev);
