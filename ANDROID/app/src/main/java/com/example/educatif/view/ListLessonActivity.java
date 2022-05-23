@@ -1,11 +1,8 @@
 package com.example.educatif.view;
 
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.cardview.widget.CardView;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,21 +10,18 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.educatif.R;
 import com.example.educatif.Utils.RetrofitInterface;
 import com.example.educatif.Utils.RetrofitLessonInterface;
@@ -42,7 +36,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -249,7 +242,7 @@ public class ListLessonActivity extends AppCompatActivity {
             for(int i=0;i<lessonController.preference.getRows();i++){
                 if(k>=length)break;
                 CardView cardView = new CardView(view.getContext());
-                CardView.LayoutParams layoutParamscardView = new CardView.LayoutParams(160,160);
+                CardView.LayoutParams layoutParamscardView = new CardView.LayoutParams(50,50);
 
                 layoutParamscardView.height = (int)lessonController.preference.getImageHeight();
                 layoutParamscardView.width = (int)lessonController.preference.getImageWidth();
@@ -268,6 +261,7 @@ public class ListLessonActivity extends AppCompatActivity {
                 cardView.addView(imageView,imageparams.width,imageparams.height);
                 cardView.setLayoutParams(layoutParamscardView);
                 tableRow.addView(new TextView(this),40,40);
+                tableRow.setMinimumWidth(linearLayout.getWidth());
 
                 tableRow.addView(cardView,(int)lessonController.preference.getTextTableWidth(),(int)lessonController.preference.getTextTableHeight());
 

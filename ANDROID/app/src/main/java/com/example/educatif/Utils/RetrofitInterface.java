@@ -1,13 +1,10 @@
 package com.example.educatif.Utils;
 
 import com.example.educatif.model.Login;
-
 import java.util.HashMap;
-
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Header;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 public interface RetrofitInterface {

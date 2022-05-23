@@ -1,10 +1,6 @@
 package com.example.educatif.view;
 
-
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
@@ -18,10 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
 
 import com.example.educatif.R;
-import com.example.educatif.Utils.RetrofitLessonInterface;
 import com.example.educatif.controller.LessonController;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -36,10 +30,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import pl.droidsonroids.gif.GifImageView;
-import retrofit2.Retrofit;
 
 public class LessonActivity extends YouTubeBaseActivity {
-    List<Button> buttonExercice = new ArrayList<>();
     LessonController lessonController;
     private TextView description,title;
     private ImageView imageView;

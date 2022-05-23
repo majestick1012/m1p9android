@@ -1,21 +1,17 @@
 package com.example.educatif.view;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-
 import com.example.educatif.R;
 import com.example.educatif.Utils.RetrofitLessonInterface;
 import com.example.educatif.controller.LessonController;
 import com.example.educatif.model.Lesson;
 import com.example.educatif.model.Preferences;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
