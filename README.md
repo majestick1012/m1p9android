@@ -5,7 +5,6 @@ Application éducative pour les petits enfants
 - Login : connexion via email et mot de passe
 - Signup : inscription avec nom, prénom, email et mot de passe
 - Activity : liste des activités disponibles dans la base de données
-- Preferences : choix du thème (clair, sombre) et des langues (FR, EN)
 - Details : informations d'une activité
 
 # Technologies utilisées
@@ -15,10 +14,3 @@ Application éducative pour les petits enfants
 - Encryption : bcrypt
 - Swagger : swagger-ui-express
 - Database : MongoDB
-
-# Thèmes
-- Couleur primaire : rouge YouTube
-- Couleur secondaire : bleu Facebook
-- Couleur boutton : #212121
-- Couleur de fond : (gris clair)
-- Couleur texte : blanc, noir
