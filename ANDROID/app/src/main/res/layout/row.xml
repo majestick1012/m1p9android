@@ -54,7 +54,7 @@
         android:text="Just gona stand there and ..."
         android:textColor="@color/black"
         android:textSize="20dip"
-        android:textStyle="italic" />
+        android:textStyle="normal" />
 
     <!-- Rightend Duration -->
     <TextView

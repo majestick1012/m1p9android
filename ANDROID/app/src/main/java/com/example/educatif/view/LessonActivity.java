@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -129,7 +130,7 @@ public class LessonActivity extends YouTubeBaseActivity {
         //PlayWithButton(findViewById(R.id.bouton));
         playYoutubeVideo(findViewById(R.id.youtube),lessonController.lessonData.getVideo());
         title.setText(lessonController.lessonData.getTitle());
-        description.setText(lessonController.lessonData.getDescription());
+        description.setText(Html.fromHtml(lessonController.lessonData.getDescription()));
         Picasso.get().load(lessonController.lessonData.getImage()).into(imageView);
 
         if(lessonController.preference != null){
