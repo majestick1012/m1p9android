@@ -20,12 +20,13 @@
         android:theme="@style/Theme.Educatif"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".NotificationActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".view.ListLessonActivity">
-
-        </activity>
+            android:parentActivityName=".view.ListLessonActivity"></activity>
 
         <meta-data
             android:name="com.google.android.actions"
@@ -34,7 +35,7 @@
         <activity
             android:name=".view.ListLessonActivity"
             android:exported="false"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize|adjustPan"/>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize|adjustPan" />
         <activity
             android:name=".view.LessonActivity"
             android:exported="false" />
