@@ -215,6 +215,7 @@ public class ListLessonActivity extends AppCompatActivity {
                         Ed.commit();
                         Intent intent = new Intent(ListLessonActivity.this, LoginActivity.class);
                         startActivity(intent);
+                        loadingDialog.dismissDialog();
                         Toast.makeText(getBaseContext(),R.string.session_expired,Toast.LENGTH_LONG).show();
                     }
                     loadingDialog.dismissDialog();
